@@ -1,80 +1,122 @@
 <link rel="import" href="elements.html">
 <link rel="import" href="shared-styles.html">
 
-<dom-module id="portfolio-project-energy">
+<dom-module id="portfolio-projects-grid">
   <template>
     <style include="shared-styles"></style>
     <style>
+
       :host {
         display: block;
+        background: #000;
       }
-      .fixed {
-        position: fixed;
-        top: 0;
+
+      .tile {
+        display: inline-block;
+        float: left;
+        vertical-align: top;
+        width: calc(100% / 6);
+        height: calc(100% / 3);
+        @apply(--paper-font-title);
+        @apply(--layout-vertical);
+        @apply(--layout-center-center);
+      }
+
+      .tile:nth-of-type(1) {
+        width: calc(100% / 3);
+        height: calc(100% / 3 * 2);
+      }
+
+      .tile:nth-of-type(4) {
+        width: calc(100% / 3);
+      }
+
+      .tile:nth-of-type(5) {
+        width: calc(100% / 3);
+        height: calc(100% / 3 * 2);
+      }
+
+      .tile:nth-of-type(8) {
+        width: calc(100% / 3);
+        height: calc(100% / 3);
+      }
+
+      .tile:nth-of-type(9) {
+        position: absolute;
+        top: calc(100% / 3 * 2);
         left: 0;
-        height: 100vh;
-        width: 100vw;
+        width: calc(100% / 6);
+        height: calc(100% / 3);
       }
-      .card {
-        position: relative;
-        margin: 200px 100px 0;
-        height: 700px;
+
+      .tile:nth-of-type(10) {
+        position: absolute;
+        top: calc(100% / 3 * 2);
+        left: calc(100% / 6);;
+        width: calc(100% / 6);
+        height: calc(100% / 3);
       }
+
     </style>
 
-    <div id="fixed" class$="[[_computeFixedBackgroundClass(color)]]"></div>
-    <div id="card" class$="[[_computeCardClass(color)]]"></div>
+    <div class="tile">
+      <span>Energy Disaggregation</span>
+    </div>
 
   </template>
-
 </dom-module>
 
 <script>
   Polymer({
-    is: 'portfolio-project-energy',
+    is: 'portfolio-projects-grid',
+
     behaviors: [
       Polymer.NeonSharedElementAnimatableBehavior
     ],
+
     properties: {
-
-      sharedElements: {
-        type: Object,
-        value: function() {
-          return {
-            'hero': this.$.card,
-            'ripple': this.$.fixed
-          }
-        }
-      },
-
       animationConfig: {
         type: Object,
         value: function() {
           return {
-            'entry': [{
+            'exit': [{
               name: 'ripple-animation',
               id: 'ripple',
-              toPage: this,
+              fromPage: this
             }, {
               name: 'hero-animation',
               id: 'hero',
-              toPage: this,
-              timing: {
-                delay: 150
-              }
-            }],
-            'exit': [{
-              name: 'fade-out-animation',
-              node: this.$.fixed
-            }, {
-              name: 'transform-animation',
-              transformFrom: 'none',
-              transformTo: 'translate(0px,-200vh) scale(0.9,1)',
-              node: this.$.card
+              fromPage: this
             }]
           }
         }
       }
+    },
+
+    listeners: {
+      click: '_onClick'
+    },
+
+    _onClick: function(event) {
+      var target = event.target;
+      while (target !== this && !target._templateInstance) {
+        target = target.parentNode;
+      }
+
+      // configure the page animation
+      this.sharedElements = {
+        'hero': target,
+        'ripple': target
+      };
+
+      this.animationConfig['exit'][0].gesture = {
+        x: event.x || event.pageX,
+        y: event.y || event.pageY
+      };
+
+      this.fire('tile-click', {
+        tile: target
+      });
     }
   });
 </script>

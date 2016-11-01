@@ -12,6 +12,10 @@
         padding: 10px;
       }
 
+      neon-animated-pages {
+        height: 100px;
+      }
+
       iron-image {
         width: 100%;
         height: 100%;
@@ -20,8 +24,11 @@
     </style>
 
     <neon-animated-pages id="pages" selected="0">
+
       <portfolio-projects-grid on-tile-click="_onTileClick"></portfolio-projects-grid>
-      <portfolio-project-energy on-full-click="_onFullClick"></portfolio-project-energy>
+
+      <portfolio-project-hd on-full-click="_onFullClick"></portfolio-project-hd>
+
     </neon-animated-pages>
 
   </template>
