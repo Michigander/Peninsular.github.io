@@ -1,0 +1,209 @@
+<!-- Copyright (c) 2016 - Charlie Voix -->
+
+<link rel="import" href="elements.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="portfolio-app">
+  <template>
+    <style include="shared-styles">
+
+      :host {
+
+        font-family: "Frontage";
+        --app-primary-color: rgba(203,219,216,1);
+        --app-secondary-color: white;
+
+        display: block
+
+      }
+
+      paper-tab[link] a {
+        /* These mixins (from iron-flex-layout) center the link text. */
+        font-size: 1em;
+        color: black;
+        text-decoration: none;
+        opacity: 1;
+        font-family: "Frontage";
+        text-align: center;
+      }
+      
+      paper-tabs {
+
+        --paper-tabs-selection-bar-color: {
+          black;
+        };
+
+      }
+
+      paper-icon-button {
+        color: black;
+      }
+
+      app-header-layout {
+        background-color: rgba(217, 217, 197, 0.2);
+      }
+
+      app-header {
+
+        --app-header-background-front-layer:{
+          background-image: url("../images/iso1-slow.gif");
+          background-size: 100% 125%;
+          -webkit-filter: opacity(0.6) invert(1);
+        };
+
+        --app-header-background-rear-layer:{
+          background-image: url("../images/iso1-slow.gif");
+          -webkit-filter: opacity(0.6);
+        };
+
+      }
+
+      .drawer-list {
+        margin: 0 20px;
+      }
+
+      .drawer-list a {
+        display: block;
+        padding: 0 16px;
+        text-decoration: none;
+        color: var(--portfolio-secondary-color);
+        line-height: 40px;
+      }
+
+      .drawer-list a.iron-selected {
+        color: black;
+        font-weight: bold;
+      }
+
+      [main-title] {
+        color: white;
+        font-size: 6vmin;
+      }
+
+      [condensed-title] {
+        color: black;
+      }
+
+      [hidden] {
+        display: none !important;
+      }
+
+    </style>
+
+    <app-location use-hash-as-path route="{{route}}"></app-location>
+
+    <app-route
+        route="{{route}}"
+        pattern="/:page"
+        data="{{routeData}}"
+        tail="{{subroute}}"></app-route>
+
+    <app-drawer-layout force-narrow>
+
+      <!-- Drawer -->
+      <app-drawer id="drawer">
+
+        <app-toolbar>Menu</app-toolbar>
+
+        <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
+            <a name="home" href="#/home">Home</a>
+            <a name="projects" href="#/projects">Projects</a>
+        </iron-selector>
+
+      </app-drawer>
+
+      <!-- Main content -->
+      <app-header-layout>
+
+        <app-header condenses fixed shadow effects="waterfall blend-background parallax-background">
+
+          <app-toolbar sticky>
+            <paper-icon-button class="menu-button" icon="menu" drawer-toggle sticky hidden$="{{wideLayout}}"></paper-icon-button>
+          </app-toolbar>
+
+          <app-toolbar>
+            <div class="title" main-title>Gordon Finnie III</div>
+          </app-toolbar>
+
+          <app-toolbar></app-toolbar>
+
+          <app-toolbarclass="tabs-bar" sticky hidden$="{{!wideLayout}}">
+            <paper-tabs selected="0" fitContainer bottom-item>
+              <paper-tab link><a name="home" href="#/home">Home</a></paper-tab>
+              <paper-tab link><a name="projects" href="#/projects">Projects</a></paper-tab>
+            </paper-tabs>
+          </app-toolbar>
+
+        </app-header>
+
+        <neon-animated-pages id="pages"
+            role='main'
+            selected="[[page]]"
+            attr-for-selected='name'
+            entry-animation='fade-in-animation'
+            exit-animation='fade-out-animation'>
+
+            <portfolio-home name="home"></portfolio-home>
+
+            <portfolio-projects name="projects"></portfolio-projects>
+
+        </neon-animated-pages>
+      </app-header-layout>
+    </app-drawer-layout>
+    <iron-media-query query="min-width: 600px" query-matches="{{wideLayout}}"></iron-media-query>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'portfolio-app',
+
+      properties: {
+
+        page: {
+          type: String,
+          reflectToAttribute: true,
+          observer: '_pageChanged'
+        },
+
+        wideLayout: {
+          type: Boolean,
+          value: false,
+          observer: 'onLayoutChange',
+        }
+      },
+
+      observers: [
+        '_routePageChanged(routeData.page)'
+      ],
+
+      onLayoutChange: function(wide) {
+        var drawer = this.$.drawer;
+        if (wide && drawer.opened) {
+         drawer.opened = false;
+        }
+      },
+
+      _routePageChanged: function(page) {
+        console.log('[P] routePageChanged: ' + page);
+        this.page = page || 'home';
+
+      },
+
+      _pageChanged: function(page) {
+        console.log('[P] pageChanged: ' + page);
+
+        // Load page import on demand. Show 404 page if fails
+        var resolvedPageUrl = this.resolveUrl('portfolio-' + page + '.html');
+        this.importHref(resolvedPageUrl, null, this._showPage404, true);
+
+      },
+
+      _showPage404: function() {
+
+        this.page = 'view404';
+
+      }
+
+    });
+  </script>
+</dom-module>
