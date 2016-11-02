@@ -1,5 +1,4 @@
 <!-- Copyright (c) 2016 - Charlie Voix -->
-
 <link rel="import" href="elements.html">
 <link rel="import" href="shared-styles.html">
 
@@ -17,6 +16,16 @@
 
       }
 
+      body {
+        overflow: hidden;
+        @apply(--layout-fullbleed);
+      }
+
+      portfolio-projects {
+        @apply(--layout-fit);
+        height: 100vmin;
+      }
+
       paper-tab[link] a {
         /* These mixins (from iron-flex-layout) center the link text. */
         font-size: 1em;
@@ -26,7 +35,7 @@
         font-family: "Frontage";
         text-align: center;
       }
-      
+
       paper-tabs {
 
         --paper-tabs-selection-bar-color: {
@@ -143,13 +152,14 @@
             entry-animation='fade-in-animation'
             exit-animation='fade-out-animation'>
 
-            <portfolio-home name="home"></portfolio-home>
+            <portfolio-home id="home-page" name="home"></portfolio-home>
 
-            <portfolio-projects name="projects"></portfolio-projects>
+            <portfolio-projects id="projects-page" name="projects"></portfolio-projects>
 
         </neon-animated-pages>
       </app-header-layout>
     </app-drawer-layout>
+
     <iron-media-query query="min-width: 600px" query-matches="{{wideLayout}}"></iron-media-query>
   </template>
 
@@ -184,6 +194,7 @@
       },
 
       _routePageChanged: function(page) {
+
         console.log('[P] routePageChanged: ' + page);
         this.page = page || 'home';
 

@@ -8,26 +8,45 @@
     <style include="shared-styles">
 
       :host {
-        display: block;
-        padding: 10px;
+        visibility: hidden;
+        @apply(--layout-vertical);
       }
 
-      neon-animated-pages {
-        height: 100px;
+      paper-item {
+        font-family: 'Frontage';
+        text-align: center;
       }
 
-      iron-image {
+      paper-toolbar {
+        --paper-toolbar-background: black;
+        --paper-toolbar-color: white;
+        --paper-toolbar-height : 60px;
         width: 100%;
-        height: 100%;
+      }
+
+      #projects-grid {
+        height: calc(100% - 60px);
+        @apply(--layout-flex);
       }
 
     </style>
 
-    <neon-animated-pages id="pages" selected="0">
+    <paper-toolbar id="projects-guide">
+      <paper-material class="fit" elevation="0">
+        <paper-item>
+          <h3> Projects </h3>
+        </paper-item>
+      </paper-material>
+    </paper-toolbar>
 
-      <portfolio-projects-grid on-tile-click="_onTileClick"></portfolio-projects-grid>
+    <!-- Grid managed as set of pages -->
+    <neon-animated-pages id="projects" selected="0">
 
-      <portfolio-project-hd on-full-click="_onFullClick"></portfolio-project-hd>
+      <!-- Grid page  -->
+      <portfolio-projects-grid id="projects-grid" on-tile-click="_onTileClick"></portfolio-projects-grid>
+
+      <!-- Project pages -->
+      <portfolio-project-hd id="project-page" on-click="_onFullClick"></portfolio-project-hd>
 
     </neon-animated-pages>
 
@@ -37,16 +56,45 @@
     Polymer({
       is: 'portfolio-projects',
 
+      properties: {
+
+        animationConfig: {
+          type: Object,
+          value: function() {
+            return {
+              'entry': [{
+                name: 'slide-from-top-animation',
+                node: this.$['projects-guide']
+              }, {
+                animatable: this.$['projects-grid'],
+                type: 'entry'
+              }]
+            };
+          }
+        }
+
+      },
+
       behaviors: [
-        Polymer.NeonAnimatableBehavior
+        Polymer.NeonAnimationRunnerBehavior
       ],
 
+      ready: function() {
+        this.show();
+      },
+
+      show: function() {
+        this.style.visibility = 'visible';
+        this.playAnimation('entry');
+      },
+
       _onTileClick: function(e){
-        this.$.pages.selected = 1;
+        this.$['project-page'].project = e.detail.data.project;
+        this.$.projects.selected = 1;
       },
 
       _onFullClick: function(e){
-        this.$.pages.selected = 0;
+        this.$.projects.selected = 0;
       }
 
     });

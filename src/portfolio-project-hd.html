@@ -1,10 +1,21 @@
+
+<!-- @License:
+
+   Copyright (c) 2016 Gordon m. Finnie III   -->
+
+<!-- Element: portfolio-project-hd
+
+This element is the project page of the hierarchical energy disaggregator -->
+
 <link rel="import" href="elements.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="portfolio-project-hd">
+
   <template>
-    <style include="shared-styles"></style>
-    <style>
+
+    <style include="shared-styles">
+
       :host {
         display: block;
       }
@@ -19,67 +30,89 @@
 
       .card {
         position: relative;
-        margin: 200px 100px 0;
-        height: 700px;
+        margin: 100px 50px 0;
+        height: 500px;
       }
 
     </style>
 
-    <div id="fixed" class="fixed"></div>
-    <div id="card" class="card"></div>
+    <div id="fixed" class$="[[_computeFixedBackgroundClass(project)]]"></div>
+    <div id="card" class$="[[_computeCardClass(project)]]"></div>
 
   </template>
 
-</dom-module>
+  <script>
 
-<script>
-  Polymer({
-    is: 'portfolio-project-hd',
+    Polymer({
+      is: 'portfolio-project-hd',
 
-    behaviors: [
-      Polymer.NeonSharedElementAnimatableBehavior
-    ],
+      behaviors: [
+        Polymer.NeonSharedElementAnimatableBehavior
+      ],
 
-    properties: {
+      properties: {
 
-      sharedElements: {
-        type: Object,
-        value: function() {
-          return {
-            'hero': this.$.card,
-            'ripple': this.$.fixed
+        sharedElements: {
+          type: Object,
+          value: function() {
+            return {
+              'hero': this.$.card,
+              'ripple': this.$.fixed
+            }
+          }
+        },
+
+        animationConfig: {
+          type: Object,
+          value: function() {
+            return {
+              'entry': [{
+                name: 'ripple-animation',
+                id: 'ripple',
+                toPage: this,
+              }, {
+                name: 'hero-animation',
+                id: 'hero',
+                toPage: this,
+                timing: {
+                  delay: 150
+                }
+              }],
+              'exit': [{
+                name: 'fade-out-animation',
+                node: this.$.fixed
+              }, {
+                name: 'transform-animation',
+                transformFrom: 'none',
+                transformTo: 'translate(0px,-200vh) scale(0.9,1)',
+                node: this.$.card
+              }]
+            }
           }
         }
       },
 
-      animationConfig: {
-        type: Object,
-        value: function() {
-          return {
-            'entry': [{
-              name: 'ripple-animation',
-              id: 'ripple',
-              toPage: this,
-            }, {
-              name: 'hero-animation',
-              id: 'hero',
-              toPage: this,
-              timing: {
-                delay: 150
-              }
-            }],
-            'exit': [{
-              name: 'fade-out-animation',
-              node: this.$.fixed
-            }, {
-              name: 'transform-animation',
-              transformFrom: 'none',
-              transformTo: 'translate(0px,-200vh) scale(0.9,1)',
-              node: this.$.card
-            }]
-          }
+      _computeCardClass: function(project) {
+        var cls = 'card';
+
+        if (project) {
+          cls += ' ' + project + '-300';
         }
+
+        return cls;
+      },
+
+      _computeFixedBackgroundClass: function(project) {
+        var cls = 'fixed';
+
+        if (project) {
+          cls += ' ' + project + '-100';
+        }
+
+        return cls;
       }
-    }
-  });
-</script>
+
+    });
+
+  </script>
+</dom-module>
