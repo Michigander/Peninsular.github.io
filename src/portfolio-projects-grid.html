@@ -25,8 +25,8 @@ This element displays projects in an interactive grid -->
         float: left;
         vertical-align: top;
 
-        width: calc(100% / 2);
-        height: calc(100% / 2);
+        height: calc(100%/3);
+        width: calc(100%/3);
 
         @apply(--layout-vertical);
         @apply(--layout-center-center);
@@ -36,7 +36,11 @@ This element displays projects in an interactive grid -->
     </style>
 
     <template is="dom-repeat" items="[[projects]]">
-      <portfolio-project-tile tile-data="{{item}}" class$="[[_computeTileClass(item.project)]]" on-project-tile-click="_onClick"></portfolio-project-tile>
+      <portfolio-project-tile
+        class$="[[_computeTileClass(item.project)]]"
+        tile-data="{{item}}"
+        on-click="_onClick">
+      </portfolio-project-tile>
     </template>
 
   </template>
@@ -51,10 +55,14 @@ This element displays projects in an interactive grid -->
          value: function() {
            return [
              {value: 1, project: 'hd'},
-             {value: 2, project: 'bloom'},
-             {value: 3, project: 'force'},
-             {value: 4, project: 'web'},
-             {value: 5, project: 'shake'}
+             {value: 3, project: 'bloom'},
+             {value: 5, project: 'force'},
+             {value: 7, project: 'web'},
+             {value: 9, project: 'shake'},
+             {value: 8, project: 'brick'},
+             {value: 8, project: 'brick'},
+             {value: 8, project: 'brick'},
+             {value: 8, project: 'brick'}
            ]
           }
         },
@@ -91,10 +99,14 @@ This element displays projects in an interactive grid -->
       ],
 
       attached: function() {
-        this.async(function() {
-          var nodeList = Polymer.dom(this.root).querySelectorAll('.tile');
-          this.animationConfig['entry'][0].nodes = Array.prototype.slice.call(nodeList);
-        });
+
+        // set node list
+        var nodeList = Polymer.dom(this.root).querySelectorAll('.tile');
+        this.animationConfig['entry'][0].nodes = Array.prototype.slice.call(nodeList);
+
+        console.log(this.animationConfig['entry'].length);
+        console.log(this.animationConfig['entry'][0].nodes.length);
+
       },
 
       _computeTileClass: function(project) {
@@ -108,15 +120,7 @@ This element displays projects in an interactive grid -->
       */
       _onClick: function(event) {
 
-        console.log( JSON.stringify(event.target.tagName));
-        console.log( JSON.stringify(event.currentTarget.tagName));
-        console.log( JSON.stringify(event.detail.data));
-
-        // get target of click by bubbling upwards
         var target = event.target;
-        while (target !== this && !target._templateInstance) {
-          target = target.parentNode;
-        }
 
         // configure the page animation
         this.sharedElements = {
@@ -129,10 +133,9 @@ This element displays projects in an interactive grid -->
           y: event.y || event.pageY
         };
 
-        // fire click event
         this.fire('tile-click', {
           tile: target,
-          data: event.detail.data
+          data: event.model.item
         });
 
       }

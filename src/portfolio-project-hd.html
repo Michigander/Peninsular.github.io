@@ -1,4 +1,3 @@
-
 <!-- @License:
 
    Copyright (c) 2016 Gordon m. Finnie III   -->
@@ -28,16 +27,16 @@ This element is the project page of the hierarchical energy disaggregator -->
         width: 100vw;
       }
 
-      .card {
+      .presentation {
         position: relative;
-        margin: 100px 50px 0;
-        height: 500px;
+        margin: 200px 100px 0;
+        height: 400px;
       }
 
     </style>
 
     <div id="fixed" class$="[[_computeFixedBackgroundClass(project)]]"></div>
-    <div id="card" class$="[[_computeCardClass(project)]]"></div>
+    <div id="presentation" class$="[[_computeCardClass(project)]]"></div>
 
   </template>
 
@@ -56,7 +55,7 @@ This element is the project page of the hierarchical energy disaggregator -->
           type: Object,
           value: function() {
             return {
-              'hero': this.$.card,
+              'hero': this.$.presentation,
               'ripple': this.$.fixed
             }
           }
@@ -85,7 +84,7 @@ This element is the project page of the hierarchical energy disaggregator -->
                 name: 'transform-animation',
                 transformFrom: 'none',
                 transformTo: 'translate(0px,-200vh) scale(0.9,1)',
-                node: this.$.card
+                node: this.$.presentation
               }]
             }
           }
@@ -93,7 +92,7 @@ This element is the project page of the hierarchical energy disaggregator -->
       },
 
       _computeCardClass: function(project) {
-        var cls = 'card';
+        var cls = 'presentation';
 
         if (project) {
           cls += ' ' + project + '-300';

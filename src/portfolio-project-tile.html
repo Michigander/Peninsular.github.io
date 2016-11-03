@@ -17,10 +17,21 @@ This element is the project page of the hierarchical energy disaggregator -->
     <style include="shared-styles">
 
       :host {
+
         display: block;
+
+      }
+
+      paper-material {
+        width: 100%;
+        height: 100%;
       }
 
     </style>
+
+    <paper-material elevation="5">
+
+    </paper-material>
 
   </template>
 
@@ -31,14 +42,6 @@ This element is the project page of the hierarchical energy disaggregator -->
 
       properties: {
         tileData: Object
-      },
-
-      listeners: {
-        'click':'_fireClick'
-      },
-
-      _fireClick: function(e){
-        this.fire('project-tile-click', {data: this.tileData});
       }
 
     });

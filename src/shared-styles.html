@@ -11,26 +11,56 @@
 
         font-family: "Frontage";
 
-        --portfolio-primary-color: rgba(203,219,216,1);
-        --portfolio-light-color: rgba(200,205,215,1);
 
-        --portfolio-project-hd-primary: rgba(14, 37, 36, 0.93);
-        --portfolio-project-hd-secondary: rgba(45, 27, 27, 0.6);
+        --portfolio-cream: rgb(246, 248, 230);
+
+        --portfolio-blue-a: rgb(97,191,183);
+        --portfolio-blue-b: rgb(102,158,154);
+        --portfolio-blue-c: rgb(179,221,212);
+        --portfolio-blue-d: rgb(142,207,194);
+
+        --portfolio-red-a: rgb(246, 156, 153);
+        --portfolio-red-b: rgb(157,133,139);
+        --portfolio-red-c: rgb(118,118,124);
+        --portfolio-red-d: rgb(107,107,111);
+        --portfolio-red-e: rgb(106,83,92);
+        --portfolio-red-f: rgb(97,97,110);
+
+
+        --portfolio-project-tile-primary: var(--portfolio-red-f);
+        --portfolio-project-tile-secondary: var(--portfolio-red-c);
+
+        --portfolio-project-bloom-primary: var(--portfolio-red-c);
+        --portfolio-project-bloom-secondary: var(--portfolio-blue-b);
+
+        --portfolio-project-force-primary: var(--portfolio-red-c);
+        --portfolio-project-force-secondary: var(--portfolio-blue-b);
+
+        --portfolio-project-shake-primary: var(--portfolio-red-c);
+        --portfolio-project-shake-secondary: var(--portfolio-blue-b);
+
+        --portfolio-project-web-primary: var(--portfolio-red-c);
+        --portfolio-project-web-secondary: var(--portfolio-blue-b);
+
+        --portfolio-project-brick-primary: var(--portfolio-red-c);
+        --portfolio-project-brick-secondary: var(--portfolio-blue-b);
+
 
       }
 
       neon-animated-pages {
+
         height: 100%;
         width: 100%;
+
       }
 
       h1 {
 
         margin: 16px 0;
-
         color: #212121;
-
         font-size: 22px;
+
       }
 
       .title {
@@ -40,6 +70,7 @@
       }
 
       .card {
+
         height: 500px;
         margin: 24px;
         padding: 16px;
@@ -47,57 +78,30 @@
         border-radius: 5px;
         background-color: white;
         box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+
       }
 
       .circle {
-        display: inline-block;
 
+        display: inline-block;
         width: 64px;
         height: 64px;
-
         text-align: center;
-
         color: #555;
         border-radius: 50%;
         background: #fff;
 
         font-size: 30px;
         line-height: 64px;
+
       }
 
-      .hd-100 {
-        background: var(--portfolio-project-hd-primary);
+      /* hierarchical disaggregator project styles */
+      .bloom-100, .web-100, .shake-100, .force-100, .brick-100, .hd-100 {
+        background: var(--portfolio-project-tile-secondary);
       }
-      .hd-300 {
-        background: var(--portfolio-project-hd-secondary);
-      }
-
-      .bloom-100 {
-        background: var(--google-blue-100);
-      }
-      .bloom-300 {
-        background: var(--google-blue-300);
-      }
-
-      .web-100 {
-        background: var(--google-green-100);
-      }
-      .web-300 {
-        background: var(--google-green-300);
-      }
-
-      .shake-100 {
-        background: var(--google-yellow-100);
-      }
-      .shake-300 {
-        background: var(--google-yellow-300);
-      }
-
-      .force-100 {
-        background: var(--google-yellow-100);
-      }
-      .force-300 {
-        background: var(--google-yellow-300);
+      .bloom-300, .web-300, .shake-300, .force-300, .brick-300, .hd-300 {
+        background: var(--portfolio-project-tile-primary);
       }
 
     </style>

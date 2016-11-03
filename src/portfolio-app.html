@@ -1,4 +1,11 @@
-<!-- Copyright (c) 2016 - Charlie Voix -->
+<!-- @License:
+
+   Copyright (c) 2016 Gordon m. Finnie III   -->
+
+<!-- Element: portfolio-projects-grid
+
+This element displays projects in an interactive grid -->
+
 <link rel="import" href="elements.html">
 <link rel="import" href="shared-styles.html">
 
@@ -9,16 +16,19 @@
       :host {
 
         font-family: "Frontage";
-        --app-primary-color: rgba(203,219,216,1);
-        --app-secondary-color: white;
-
         display: block
 
       }
 
       body {
-        overflow: hidden;
         @apply(--layout-fullbleed);
+      }
+
+      paper-toolbar {
+        --paper-toolbar-color: var(--portfolio-red);
+        --paper-toolbar-background: var(--portfolio-cream);
+        --paper-toolbar-height : 60px;
+        width: 100%;
       }
 
       portfolio-projects {
@@ -124,7 +134,7 @@
       <!-- Main content -->
       <app-header-layout>
 
-        <app-header condenses fixed shadow effects="waterfall blend-background parallax-background">
+        <app-header id="header" condenses fixed shadow effects="waterfall blend-background parallax-background">
 
           <app-toolbar sticky>
             <paper-icon-button class="menu-button" icon="menu" drawer-toggle sticky hidden$="{{wideLayout}}"></paper-icon-button>
@@ -136,8 +146,8 @@
 
           <app-toolbar></app-toolbar>
 
-          <app-toolbarclass="tabs-bar" sticky hidden$="{{!wideLayout}}">
-            <paper-tabs selected="0" fitContainer bottom-item>
+          <app-toolbar class="tabs-bar" sticky hidden$="{{!wideLayout}}">
+            <paper-tabs selected="0" fit-container bottom-item>
               <paper-tab link><a name="home" href="#/home">Home</a></paper-tab>
               <paper-tab link><a name="projects" href="#/projects">Projects</a></paper-tab>
             </paper-tabs>
@@ -206,6 +216,13 @@
         // Load page import on demand. Show 404 page if fails
         var resolvedPageUrl = this.resolveUrl('portfolio-' + page + '.html');
         this.importHref(resolvedPageUrl, null, this._showPage404, true);
+
+        //
+        if( page === "projects" ){
+          var reducedHeight = parseInt(this.$.header.getComputedStyleValue('height')) - 64;
+          window.scrollTo(0,reducedHeight);
+          this.$['projects-page'].show();
+        }
 
       },
 
