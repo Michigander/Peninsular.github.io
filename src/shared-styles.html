@@ -13,6 +13,7 @@
 
 
         --portfolio-cream: rgb(246, 248, 230);
+        --portfolio-cream-b: rgb(187,187,183);
 
         --portfolio-blue-a: rgb(97,191,183);
         --portfolio-blue-b: rgb(102,158,154);
@@ -27,7 +28,7 @@
         --portfolio-red-f: rgb(97,97,110);
 
 
-        --portfolio-project-tile-primary: var(--portfolio-red-f);
+        --portfolio-project-tile-primary: var(--portfolio-cream);
         --portfolio-project-tile-secondary: var(--portfolio-red-c);
 
         --portfolio-project-bloom-primary: var(--portfolio-red-c);
@@ -97,11 +98,16 @@
       }
 
       /* hierarchical disaggregator project styles */
-      .bloom-100, .web-100, .shake-100, .force-100, .brick-100, .hd-100 {
+      .origin-100, .bloom-100, .web-100, .shake-100, .force-100, .brick-100, .hd-100 {
         background: var(--portfolio-project-tile-secondary);
       }
-      .bloom-300, .web-300, .shake-300, .force-300, .brick-300, .hd-300 {
+      .origin-100, .bloom-300, .web-300, .shake-300, .force-300, .brick-300, .hd-300 {
         background: var(--portfolio-project-tile-primary);
+      }
+
+      #iso3 {
+        -webkit-filter: opacity(0.5) invert(0.75) contrast(750%);
+        -webkit-transform: rotate(180deg);
       }
 
     </style>
