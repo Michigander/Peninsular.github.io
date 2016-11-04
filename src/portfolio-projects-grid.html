@@ -33,24 +33,15 @@ This element displays projects in an interactive grid -->
 
       }
 
-      iron-image {
-        height: 100%;
-        width: 100%
-      }
-
     </style>
 
     <template is="dom-repeat" items="[[projects]]">
+
       <portfolio-project-tile
         class$="[[_computeTileClass(item.project)]]"
         tile-data="{{item}}"
-        on-click="_onClick">
-        <template is="dom-if" if="{{item.image}}">
+        on-click="_onClick"></portfolio-project-tile>
 
-          <iron-image id="{{item.Id}}" src="../images/{{item.src}}" preload sizing="cover"></iron-image>
-
-        </template>
-      </portfolio-project-tile>
     </template>
 
   </template>
@@ -64,15 +55,15 @@ This element displays projects in an interactive grid -->
          type: Array,
          value: function() {
            return [
-             {elevation: 4, project: 'hd'},
-             {elevation: 4, project: 'bloom'},
-             {elevation: 4, project: 'force'},
-             {elevation: 4, project: 'web'},
-             {elevation: 0, project: 'origin', image: true, src: 'iso3.gif', Id: 'iso3'},
-             {elevation: 4, project: 'shake'},
-             {elevation: 4, project: 'brick'},
-             {elevation: 4, project: 'brick'},
-             {elevation: 4, project: 'brick'}
+             {elevation: 4, project: 'hd', src: 'iso7.gif', Id: 'iso3'},
+             {elevation: 4, project: 'bloom', src: 'iso7.gif', Id: 'iso3'},
+             {elevation: 4, project: 'force', src: 'iso7.gif', Id: 'iso3'},
+             {elevation: 4, project: 'web', src: 'iso7.gif', Id: 'iso3'},
+             {elevation: 0, project: 'origin'},
+             {elevation: 4, project: 'shake', src: 'iso7.gif', Id: 'iso3'},
+             {elevation: 4, project: 'brick', src: 'iso7.gif', Id: 'iso3'},
+             {elevation: 4, project: 'brick', src: 'iso7.gif', Id: 'iso3'},
+             {elevation: 4, project: 'brick', src: 'iso7.gif', Id: 'iso3'}
            ]
           }
         },

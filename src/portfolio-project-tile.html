@@ -28,10 +28,24 @@ This element is the project page of the hierarchical energy disaggregator -->
         height: 100%;
       }
 
+      iron-image {
+        position: absolute;
+        z-index: 500;
+        height: 100%;
+        width: 100%
+      }
+
+      .over {
+        background-color: var(--portfolio-project-primary);
+        z-index: 1000;
+        position: absolute;
+      }
     </style>
 
     <paper-material elevation="{{this.tileData.elevation}}">
-      <content></content>
+      <paper-icon-button class="over" icon="add"></paper-icon-button>
+      <iron-image id="{{tileData.Id}}" src="../images/{{tileData.src}}" preload sizing="cover"></iron-image>
+
     </paper-material>
 
   </template>
