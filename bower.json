@@ -16,7 +16,8 @@
     "tests"
   ],
   "dependencies": {
-    "neon-animation": "PolymerElements/neon-animation#^1.2.4"
+    "neon-animation": "PolymerElements/neon-animation#^1.2.4",
+    "marked-element": "PolymerElements/marked-element#^1.2.0"
   },
   "resolutions": {
     "polymer": "^1.6.0"

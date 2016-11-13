@@ -16,24 +16,38 @@ This element displays projects in an interactive grid -->
       :host {
 
         font-family: "Frontage";
-        display: block
+        display: block;
 
+        --portfolio-background-image: transparent;
+        --portfolio-title-color: black;
       }
 
-      body {
-        @apply(--layout-fullbleed);
+      app-header-layout {
+        background-color: rgba(217, 217, 197, 0.2);
       }
 
+      app-header {
+
+        --app-header-background-front-layer:{
+          background: var(--portfolio-background-image);
+          background-size: 100% 125%;
+          -webkit-filter: hue-rotate(345deg) opacity(0.6) invert(1);
+        };
+
+        --app-header-background-rear-layer:{
+          background: var(--portfolio-background-image);
+          -webkit-filter: opacity(0.6);
+        };
+
+      }
+      portfolio-projects:{
+        
+      }
       paper-toolbar {
         --paper-toolbar-color: var(--portfolio-red);
         --paper-toolbar-background: var(--portfolio-cream);
         --paper-toolbar-height : 60px;
         width: 100%;
-      }
-
-      portfolio-projects {
-        @apply(--layout-fit);
-        height: 100vmin;
       }
 
       paper-tab[link] a {
@@ -58,25 +72,6 @@ This element displays projects in an interactive grid -->
         color: black;
       }
 
-      app-header-layout {
-        background-color: rgba(217, 217, 197, 0.2);
-      }
-
-      app-header {
-
-        --app-header-background-front-layer:{
-          background-image: url("../images/iso1-slow.gif");
-          background-size: 100% 125%;
-          -webkit-filter: opacity(0.6) invert(1);
-        };
-
-        --app-header-background-rear-layer:{
-          background-image: url("../images/iso1-slow.gif");
-          -webkit-filter: opacity(0.6);
-        };
-
-      }
-
       .drawer-list {
         margin: 0 20px;
       }
@@ -95,7 +90,7 @@ This element displays projects in an interactive grid -->
       }
 
       [main-title] {
-        color: white;
+        color: var(--portfolio-title-color);
         font-size: 6vmin;
       }
 
@@ -188,7 +183,16 @@ This element displays projects in an interactive grid -->
         wideLayout: {
           type: Boolean,
           value: false,
-          observer: 'onLayoutChange',
+          observer: '_onLayoutChange',
+        },
+
+        styleConfig: {
+          type: Object,
+          value: function () {
+            return {
+              projects : "url('../images/iso1-slow.gif')"
+            }
+          }
         }
       },
 
@@ -196,11 +200,11 @@ This element displays projects in an interactive grid -->
         '_routePageChanged(routeData.page)'
       ],
 
-      onLayoutChange: function(wide) {
+      _onLayoutChange: function(wide) {
+
         var drawer = this.$.drawer;
-        if (wide && drawer.opened) {
-         drawer.opened = false;
-        }
+        if (wide && drawer.opened) drawer.opened = false;
+
       },
 
       _routePageChanged: function(page) {
@@ -210,18 +214,36 @@ This element displays projects in an interactive grid -->
 
       },
 
-      _pageChanged: function(page) {
-        console.log('[P] pageChanged: ' + page);
+      _pageChanged: function(newPage, oldPage) {
 
         // Load page import on demand. Show 404 page if fails
-        var resolvedPageUrl = this.resolveUrl('portfolio-' + page + '.html');
+        var resolvedPageUrl = this.resolveUrl('portfolio-' + newPage + '.html');
         this.importHref(resolvedPageUrl, null, this._showPage404, true);
 
-        //
-        if( page === "projects" ){
+        if( newPage === 'projects' ){
+
+          // Scroll to minimize header
           var reducedHeight = parseInt(this.$.header.getComputedStyleValue('height')) - 64;
           window.scrollTo(0,reducedHeight);
+
+          // Update to projects header
+          this.customStyle['--portfolio-background-image'] = 'transparent';
+          this.customStyle['--portfolio-title-color'] = 'black';
+          this.updateStyles();
+
+          // Play animation
           this.$['projects-page'].show();
+
+        }else{
+
+          // Scroll
+          window.scrollTo(0,0);
+
+          // Update to home header
+          this.customStyle['--portfolio-background-image'] = "url('../images/iso1-slow.gif')";
+          this.customStyle['--portfolio-title-color'] = 'white';
+          this.updateStyles();
+
         }
 
       },

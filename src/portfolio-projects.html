@@ -14,36 +14,34 @@ This element displays projects in an interactive grid -->
     <style include="shared-styles">
 
       :host {
-        visibility: hidden;
-
-        @apply(--layout-vertical);
         @apply(--layout-fullbleed);
+        visibility: hidden;
       }
 
       paper-item {
+
         font-family: 'Frontage';
         text-align: center;
+
       }
 
-      neon-animated-pages {
-        height: 100%;
-      }
+      portfolio-projects-grid {
 
-      #projects-grid {
         height: 100%;
-        @apply(--layout-flex);
+        width: 100%;
+
       }
 
     </style>
 
     <!-- Grid managed as set of pages -->
-    <neon-animated-pages id="projects" selected="0">
+    <neon-animated-pages id="projects" attr-for-selected="name" selected="[[projectPage]]">
 
       <!-- Grid page  -->
-      <portfolio-projects-grid id="projects-grid" on-tile-click="_onTileClick"></portfolio-projects-grid>
+      <portfolio-projects-grid id="grid" name="grid" on-tile-click="_onTileClick"></portfolio-projects-grid>
 
       <!-- Project pages -->
-      <portfolio-project-hd id="project-page" on-click="_onFullClick"></portfolio-project-hd>
+      <portfolio-project-hd id="hd" name="hd" project="hierarchical_disaggregator" on-click="_onFullClick"></portfolio-project-hd>
 
     </neon-animated-pages>
 
@@ -55,12 +53,17 @@ This element displays projects in an interactive grid -->
 
       properties: {
 
+        projectPage: {
+          type: String,
+          value: 'grid'
+        },
+
         animationConfig: {
           type: Object,
           value: function() {
             return {
               'entry': [{
-                animatable: this.$['projects-grid'],
+                animatable: this.$.grid,
                 type: 'entry'
               }]
             };
@@ -74,9 +77,6 @@ This element displays projects in an interactive grid -->
         Polymer.NeonAnimationRunnerBehavior
       ],
 
-      ready: function() {
-      },
-
       show: function() {
         this.style.visibility = 'visible';
         this.playAnimation('entry');
@@ -84,14 +84,14 @@ This element displays projects in an interactive grid -->
 
       _onTileClick: function(e){
 
-        this.$['project-page'].project = e.detail.data.project;
-
-        this.$.projects.selected = 1;
+        this.projectPage = 'hd';
 
       },
 
       _onFullClick: function(e){
-        this.$.projects.selected = 0;
+
+        this.projectPage = 'grid';
+
       }
 
     });

@@ -14,10 +14,15 @@ This element displays projects in an interactive grid -->
     <style include="shared-styles">
 
       :host {
+
         display: block;
+        padding: 10px;
+
       }
 
       .tile {
+        @apply(--layout-vertical);
+        @apply(--layout-center-center);
 
         font-family: 'Frontage';
 
@@ -25,11 +30,8 @@ This element displays projects in an interactive grid -->
         float: left;
         vertical-align: top;
 
-        height: calc(100% / 3 - 21px);
-        width: calc(100%/3 - 10px);
-
-        @apply(--layout-vertical);
-        @apply(--layout-center-center);
+        height: calc(100% / 2 - 25px);
+        width: calc(100% / 2 - 10px);
 
       }
 
@@ -38,14 +40,17 @@ This element displays projects in an interactive grid -->
     <template is="dom-repeat" items="[[projects]]">
 
       <portfolio-project-tile
-        class$="[[_computeTileClass(item.project)]]"
-        tile-data="{{item}}"
+        class="tile"
+        project-data="{{item}}"
+        project-title="{{item.project}}"
         on-click="_onClick"></portfolio-project-tile>
 
     </template>
 
   </template>
+
   <script>
+
     Polymer({
       is: 'portfolio-projects-grid',
 
@@ -55,15 +60,12 @@ This element displays projects in an interactive grid -->
          type: Array,
          value: function() {
            return [
-             {elevation: 4, project: 'hd', src: 'iso7.gif', Id: 'iso3'},
-             {elevation: 4, project: 'bloom', src: 'iso7.gif', Id: 'iso3'},
-             {elevation: 4, project: 'force', src: 'iso7.gif', Id: 'iso3'},
-             {elevation: 4, project: 'web', src: 'iso7.gif', Id: 'iso3'},
-             {elevation: 0, project: 'origin'},
-             {elevation: 4, project: 'shake', src: 'iso7.gif', Id: 'iso3'},
-             {elevation: 4, project: 'brick', src: 'iso7.gif', Id: 'iso3'},
-             {elevation: 4, project: 'brick', src: 'iso7.gif', Id: 'iso3'},
-             {elevation: 4, project: 'brick', src: 'iso7.gif', Id: 'iso3'}
+             {elevation: 2, project: 'Hierarchical Classifier for Energy Disaggregation', src: 'iso4-full2.gif', class: 'left-col'},
+             {elevation: 2, project: 'Web Force Salesforce Interface', src: 'iso4-full2-hflip.gif', class: 'right-col'},
+             {elevation: 2, project: 'Shake Contact Sharing', src: 'iso4-full2.gif', class: 'left-col'},
+             {elevation: 2, project: 'Web Dev', src: 'iso4-full2-hflip.gif', class: 'right-col'},
+             {elevation: 0, project: 'exposition', src: 'iso4-full2.gif', class: 'left-col'},
+             {elevation: 2, project: 'Bloom Modular Membrane', src: 'iso4-full2-hflip.gif', class: 'right-col'}
            ]
           }
         },
@@ -105,13 +107,6 @@ This element displays projects in an interactive grid -->
         var nodeList = Polymer.dom(this.root).querySelectorAll('.tile');
         this.animationConfig['entry'][0].nodes = Array.prototype.slice.call(nodeList);
 
-        console.log(this.animationConfig['entry'].length);
-        console.log(this.animationConfig['entry'][0].nodes.length);
-
-      },
-
-      _computeTileClass: function(project) {
-        return 'tile ' + project + '-300';
       },
 
       /**
