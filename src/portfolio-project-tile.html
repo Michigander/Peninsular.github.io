@@ -1,0 +1,147 @@
+
+<!-- @License:
+
+   Copyright (c) 2016 Gordon m. Finnie III   -->
+
+<!-- Element: portfolio-project-tile
+
+This element is the project page of the hierarchical energy disaggregator -->
+
+<link rel="import" href="elements.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="portfolio-project-tile">
+
+  <template>
+
+    <style include="shared-styles">
+
+      :host {
+
+        display: block;
+        padding: 5px 5px;
+
+      }
+
+      paper-material {
+
+        background: var(--portfolio-cream-b);
+        width: 95%;
+        height: 100%;
+
+      }
+
+      iron-image {
+
+        position: absolute;
+        -webkit-filter: opacity(0.75) blur(5px);
+        height: 100%;
+        width: 100%;
+        z-index: 0;
+
+      }
+
+      .overlay {
+        @apply(--layout-vertical);
+        @apply(--layout-center);
+
+        position: absolute;
+        z-index: 1000;
+
+        height: 100%;
+        width: 100%;
+      }
+
+      paper-card.exposition-mat {
+        @apply(--layout-flex);
+        @apply(--layout-center-center);
+
+        --paper-card : {
+          font-family: 'Frontage';
+          font-size: 1.5vmin;
+          height: 75%;
+          width: 75%;
+          color: white;
+        };
+
+        --paper-card-background-color : rgba(0,0,0,0.75);
+
+      }
+
+      paper-card.project-mat {
+        @apply(--layout-flex);
+        @apply(--layout-center-center);
+
+        --paper-card : {
+          font-family: 'Frontage';
+          font-size: 1.5vmin;
+          height: 75%;
+          width: 75%;
+          color: white;
+        };
+
+        --paper-card-background-color : rgba(0,0,0,0.75);
+
+        --paper-card-header : {
+          height: 80%;
+          align-items: center;
+        };
+
+        --paper-card-header-text : {
+          font-family: 'Frontage';
+          font-size: 2vmin;
+          word-wrap: break-word;
+          color: white;
+        };
+
+      }
+
+    </style>
+
+    <!-- Overlay -->
+    <paper-material elevation="{{projectData.elevation}}">
+
+      <div class="overlay">
+
+        <template is="dom-if" if="{{isProject}}">
+          <paper-card class="project-mat" heading="{{projectTitle}}">
+            <div class="card-actions"></div>
+          </paper-card>
+        </template>
+
+      </div>
+
+      <!-- Background  -->
+      <iron-image class$="{{projectData.class}}" src="../images/{{projectData.src}}" preload sizing="cover"></iron-image>
+
+    </paper-material>
+
+  </template>
+
+  <script>
+
+    Polymer({
+
+      is: 'portfolio-project-tile',
+
+      properties: {
+
+        projectData: Object,
+
+        projectTitle: String,
+
+        isProject: {
+          type: Boolean,
+          computed: '_isProject(projectTitle)'
+        }
+
+      },
+
+      _isProject: function(){
+        return !(this.projectTitle === 'exposition');
+      }
+
+    });
+
+  </script>
+</dom-module>

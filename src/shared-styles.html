@@ -1,0 +1,124 @@
+<!-- Copyright (c) 2016 - Charlie Voix -->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<!-- shared styles for all views -->
+<dom-module id="shared-styles">
+  <template>
+    <style>
+
+      :host {
+
+        font-family: "Frontage";
+
+
+        --portfolio-cream: rgb(246, 248, 230);
+        --portfolio-cream-b: rgb(187,187,183);
+
+        --portfolio-blue-a: rgb(97,191,183);
+        --portfolio-blue-b: rgb(102,158,154);
+        --portfolio-blue-c: rgb(179,221,212);
+        --portfolio-blue-d: rgb(142,207,194);
+
+        --portfolio-red-a: rgb(246, 156, 153);
+        --portfolio-red-b: rgb(157,133,139);
+        --portfolio-red-c: rgb(118,118,124);
+        --portfolio-red-d: rgb(107,107,111);
+        --portfolio-red-e: rgb(106,83,92);
+        --portfolio-red-f: rgb(97,97,110);
+
+
+        --portfolio-project-tile-primary: var(--portfolio-red-d);
+        --portfolio-project-tile-secondary: var(--portfolio-red-c);
+
+        --portfolio-project-bloom-primary: var(--portfolio-red-c);
+        --portfolio-project-bloom-secondary: var(--portfolio-blue-b);
+
+        --portfolio-project-force-primary: var(--portfolio-red-c);
+        --portfolio-project-force-secondary: var(--portfolio-blue-b);
+
+        --portfolio-project-shake-primary: var(--portfolio-red-c);
+        --portfolio-project-shake-secondary: var(--portfolio-blue-b);
+
+        --portfolio-project-web-primary: var(--portfolio-red-c);
+        --portfolio-project-web-secondary: var(--portfolio-blue-b);
+
+        --portfolio-project-brick-primary: var(--portfolio-red-c);
+        --portfolio-project-brick-secondary: var(--portfolio-blue-b);
+
+
+      }
+
+      neon-animated-pages {
+        height: 100%;
+        width: 100%;
+      }
+
+      h1 {
+
+        margin: 16px 0;
+        color: #212121;
+        font-size: 22px;
+
+      }
+
+      .title {
+
+        text-align: center;
+
+      }
+
+      .card {
+
+        height: 500px;
+        margin: 24px;
+        padding: 16px;
+        color: black;
+        border-radius: 5px;
+        background-color: white;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+
+      }
+
+      .circle {
+
+        display: block;
+        width: 64px;
+        height: 64px;
+        text-align: center;
+        color: #555;
+        border-radius: 50%;
+        background: #fff;
+
+        font-size: 30px;
+        line-height: 64px;
+
+      }
+
+      /* hierarchical disaggregator project styles */
+      .origin-100, .bloom-100, .web-100, .shake-100, .force-100, .brick-100, .hd-100 {
+
+        background-image: url('../images/iso4-full2.gif');
+        -webkit-filter: blur(5px) opacity(0.5) hue-rotate(90deg) invert(1) saturate(500%) contrast(500%);
+
+      }
+
+      .origin-300, .bloom-300, .web-300, .shake-300, .force-300, .brick-300, .hd-300 {
+
+      }
+
+      .left-col {
+        -webkit-filter: opacity(0.75) blur(8px) hue-rotate(100deg) invert(0.25) saturate(500%) contrast(500%);
+      }
+
+      .center-col {
+        -webkit-filter: opacity(0);
+      }
+
+      .right-col {
+        -webkit-filter: opacity(0.75) blur(8px) hue-rotate(100deg) invert(0.25) saturate(500%) contrast(500%);
+      }
+
+    </style>
+  </template>
+</dom-module>

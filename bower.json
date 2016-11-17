@@ -1,0 +1,25 @@
+{
+  "name": "gordon-m-finnie-iii.github.io",
+  "homepage": "https://gordon-m-finnie-iii.github.io",
+  "authors": [
+    "Gordon Finnie III <gordon.m.finnie.iii@gmail.com>"
+  ],
+  "description": "portfolio",
+  "main": "index.html",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "neon-animation": "PolymerElements/neon-animation#^1.2.4",
+    "marked-element": "PolymerElements/marked-element#^1.2.0"
+  },
+  "resolutions": {
+    "polymer": "^1.6.0"
+  }
+}

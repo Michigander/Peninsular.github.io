@@ -1,0 +1,140 @@
+<!-- @License:
+
+   Copyright (c) 2016 Gordon m. Finnie III   -->
+
+<!-- Element: portfolio-projects-grid
+
+This element displays projects in an interactive grid -->
+
+<link rel="import" href="elements.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="portfolio-projects-grid">
+  <template>
+    <style include="shared-styles">
+
+      :host {
+
+        display: block;
+        padding: 10px;
+
+      }
+
+      .tile {
+        @apply(--layout-vertical);
+        @apply(--layout-center-center);
+
+        font-family: 'Frontage';
+
+        display: inline-block;
+        float: left;
+        vertical-align: top;
+
+        height: calc(100% / 2 - 25px);
+        width: calc(100% / 2 - 10px);
+
+      }
+
+    </style>
+
+    <template is="dom-repeat" items="[[projects]]">
+
+      <portfolio-project-tile
+        class="tile"
+        project-data="{{item}}"
+        project-title="{{item.project}}"
+        on-click="_onClick"></portfolio-project-tile>
+
+    </template>
+
+  </template>
+
+  <script>
+
+    Polymer({
+      is: 'portfolio-projects-grid',
+
+      properties: {
+
+        projects: {
+         type: Array,
+         value: function() {
+           return [
+             {elevation: 2, project: 'Hierarchical Classifier for Energy Disaggregation', src: 'iso4-full2.gif', class: 'left-col'},
+             {elevation: 2, project: 'Web Force Salesforce Interface', src: 'iso4-full2-hflip.gif', class: 'right-col'},
+             {elevation: 2, project: 'Shake Contact Sharing', src: 'iso4-full2.gif', class: 'left-col'},
+             {elevation: 2, project: 'Web Dev', src: 'iso4-full2-hflip.gif', class: 'right-col'},
+             {elevation: 0, project: 'exposition', src: 'iso4-full2.gif', class: 'left-col'},
+             {elevation: 2, project: 'Bloom Modular Membrane', src: 'iso4-full2-hflip.gif', class: 'right-col'}
+           ]
+          }
+        },
+
+        animationConfig: {
+          type: Object,
+          value: function() {
+            return {
+              'entry': [{
+                name: 'cascaded-animation',
+                animation: 'transform-animation',
+                transformFrom: 'translateY(100%)',
+                transformTo: 'none',
+                timing: {
+                  delay: 50
+                }
+              }],
+              'exit': [{
+                name: 'ripple-animation',
+                id: 'ripple',
+                fromPage: this
+              }, {
+                name: 'hero-animation',
+                id: 'hero',
+                fromPage: this
+              }]
+            }
+          }
+        }
+      },
+
+      behaviors: [
+        Polymer.NeonSharedElementAnimatableBehavior
+      ],
+
+      attached: function() {
+
+        // set node list
+        var nodeList = Polymer.dom(this.root).querySelectorAll('.tile');
+        this.animationConfig['entry'][0].nodes = Array.prototype.slice.call(nodeList);
+
+      },
+
+      /**
+      * Configure and fire a tile-click event to show the clicked project.
+      * @param{object} event
+      * @return{null}
+      */
+      _onClick: function(event) {
+
+        var target = event.target;
+
+        // configure the page animation
+        this.sharedElements = {
+          'hero': target,
+          'ripple': target
+        };
+
+        this.animationConfig['exit'][0].gesture = {
+          x: event.x || event.pageX,
+          y: event.y || event.pageY
+        };
+
+        this.fire('tile-click', {
+          tile: target,
+          data: event.model.item
+        });
+
+      }
+    });
+  </script>
+</dom-module>

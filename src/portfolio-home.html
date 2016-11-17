@@ -1,0 +1,50 @@
+<!-- Copyright (c) 2016 - Charlie Voix -->
+
+<link rel="import" href="elements.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="portfolio-home">
+
+  <template>
+
+    <style include="shared-styles">
+
+      :host {
+        display: block;
+        padding: 10px;
+
+      }
+
+    </style>
+    <div class="card">
+      <h4>Sample</h4>
+    </div>
+
+    <div class="card">
+      <h4>Sample</h4>
+    </div>
+
+    <div class="card">
+      <h4>Sample</h4>
+    </div>
+
+    <div class="card">
+      <h4>Sample</h4>
+    </div>
+
+    <div class="card">
+      <h4>Sample</h4>
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'portfolio-home',
+
+      behaviors: [
+        Polymer.NeonAnimatableBehavior
+      ]
+    });
+  </script>
+
+</dom-module>
