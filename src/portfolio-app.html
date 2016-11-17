@@ -18,8 +18,7 @@ This element displays projects in an interactive grid -->
         font-family: "Frontage";
         display: block;
 
-        --portfolio-background-image: transparent;
-        --portfolio-title-color: black;
+        --portfolio-title-color: white;
       }
 
       app-header-layout {
@@ -29,20 +28,18 @@ This element displays projects in an interactive grid -->
       app-header {
 
         --app-header-background-front-layer:{
-          background: var(--portfolio-background-image);
+          background: url('../images/iso1-slow.gif');
           background-size: 100% 125%;
           -webkit-filter: hue-rotate(345deg) opacity(0.6) invert(1);
         };
 
         --app-header-background-rear-layer:{
-          background: var(--portfolio-background-image);
+          background: url('../images/iso1-slow.gif');
           -webkit-filter: opacity(0.6);
         };
 
       }
-      portfolio-projects:{
-        
-      }
+
       paper-toolbar {
         --paper-toolbar-color: var(--portfolio-red);
         --paper-toolbar-background: var(--portfolio-cream);
@@ -226,11 +223,6 @@ This element displays projects in an interactive grid -->
           var reducedHeight = parseInt(this.$.header.getComputedStyleValue('height')) - 64;
           window.scrollTo(0,reducedHeight);
 
-          // Update to projects header
-          this.customStyle['--portfolio-background-image'] = 'transparent';
-          this.customStyle['--portfolio-title-color'] = 'black';
-          this.updateStyles();
-
           // Play animation
           this.$['projects-page'].show();
 
@@ -238,11 +230,6 @@ This element displays projects in an interactive grid -->
 
           // Scroll
           window.scrollTo(0,0);
-
-          // Update to home header
-          this.customStyle['--portfolio-background-image'] = "url('../images/iso1-slow.gif')";
-          this.customStyle['--portfolio-title-color'] = 'white';
-          this.updateStyles();
 
         }
 
