@@ -50,6 +50,7 @@ This element is the project page of the hierarchical energy disaggregator -->
 
         height: 100%;
         width: 100%;
+
       }
 
       paper-card.exposition-mat {
@@ -58,7 +59,6 @@ This element is the project page of the hierarchical energy disaggregator -->
 
         --paper-card : {
           font-family: 'Frontage';
-          font-size: 1.5vmin;
           height: 75%;
           width: 75%;
           color: white;
@@ -74,7 +74,6 @@ This element is the project page of the hierarchical energy disaggregator -->
 
         --paper-card : {
           font-family: 'Frontage';
-          font-size: 1.5vmin;
           height: 75%;
           width: 75%;
           color: white;
@@ -89,7 +88,7 @@ This element is the project page of the hierarchical energy disaggregator -->
 
         --paper-card-header-text : {
           font-family: 'Frontage';
-          font-size: 2vmin;
+          font-size: 3vmin;
           word-wrap: break-word;
           color: white;
         };
@@ -99,7 +98,7 @@ This element is the project page of the hierarchical energy disaggregator -->
     </style>
 
     <!-- Overlay -->
-    <paper-material elevation="{{projectData.elevation}}">
+    <paper-material class$="{{projectData.class}}" elevation="{{projectData.elevation}}">
 
       <div class="overlay">
 
@@ -112,7 +111,7 @@ This element is the project page of the hierarchical energy disaggregator -->
       </div>
 
       <!-- Background  -->
-      <iron-image class$="{{projectData.class}}" src="../images/{{projectData.src}}" preload sizing="cover"></iron-image>
+      <!--<iron-image class$="{{projectData.class}}" src="../images/{{projectData.src}}" preload sizing="cover"></iron-image>-->
 
     </paper-material>
 

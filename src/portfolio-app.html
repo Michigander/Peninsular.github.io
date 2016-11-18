@@ -19,6 +19,7 @@ This element displays projects in an interactive grid -->
         display: block;
 
         --portfolio-title-color: white;
+        --header-background: url('../images/iso1-slow.gif');
       }
 
       app-header-layout {
@@ -28,13 +29,13 @@ This element displays projects in an interactive grid -->
       app-header {
 
         --app-header-background-front-layer:{
-          background: url('../images/iso1-slow.gif');
+          background: var(--header-background);
           background-size: 100% 125%;
           -webkit-filter: hue-rotate(345deg) opacity(0.6) invert(1);
         };
 
         --app-header-background-rear-layer:{
-          background: url('../images/iso1-slow.gif');
+          background: var(--header-background);
           -webkit-filter: opacity(0.6);
         };
 
@@ -196,7 +197,13 @@ This element displays projects in an interactive grid -->
       observers: [
         '_routePageChanged(routeData.page)'
       ],
-
+      attached: function() {
+        if(this.page === 'projects'){
+          this.customStyle['--header-background'] = 'transparent';
+          this.customStyle['--portfolio-title-color'] = 'black';
+          this.updateStyles();
+        }
+      },
       _onLayoutChange: function(wide) {
 
         var drawer = this.$.drawer;
@@ -213,6 +220,8 @@ This element displays projects in an interactive grid -->
 
       _pageChanged: function(newPage, oldPage) {
 
+        console.log('new-> ' + newPage + ' old-> ' + oldPage);
+
         // Load page import on demand. Show 404 page if fails
         var resolvedPageUrl = this.resolveUrl('portfolio-' + newPage + '.html');
         this.importHref(resolvedPageUrl, null, this._showPage404, true);
@@ -223,6 +232,10 @@ This element displays projects in an interactive grid -->
           var reducedHeight = parseInt(this.$.header.getComputedStyleValue('height')) - 64;
           window.scrollTo(0,reducedHeight);
 
+          this.customStyle['--header-background'] = 'transparent';
+          this.customStyle['--portfolio-title-color'] = 'black';
+          this.updateStyles();
+
           // Play animation
           this.$['projects-page'].show();
 
@@ -230,7 +243,8 @@ This element displays projects in an interactive grid -->
 
           // Scroll
           window.scrollTo(0,0);
-
+          this.customStyle['--header-background'] = "url('../images/iso1-slow.gif')";
+          this.updateStyles();
         }
 
       },

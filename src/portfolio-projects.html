@@ -26,7 +26,7 @@ This element displays projects in an interactive grid -->
       }
 
       portfolio-projects-grid {
-
+        
         height: 100%;
         width: 100%;
 
@@ -41,7 +41,11 @@ This element displays projects in an interactive grid -->
       <portfolio-projects-grid id="grid" name="grid" on-tile-click="_onTileClick"></portfolio-projects-grid>
 
       <!-- Project pages -->
-      <portfolio-project-hd id="hd" name="hd" project="hierarchical_disaggregator" on-click="_onFullClick"></portfolio-project-hd>
+      <project-hd id="hd" name="hd" project="hierarchical_disaggregator" on-click="_onFullClick"></project-hd>
+      <project-bloom id="bloom" name="bloom" project="hierarchical_disaggregator" on-click="_onFullClick"></project-bloom>
+      <project-shake id="shake" name="shake" project="hierarchical_disaggregator" on-click="_onFullClick"></project-shake>
+      <project-force id="force" name="force" project="hierarchical_disaggregator" on-click="_onFullClick"></project-force>
+      <project-www id="www" name="www" project="hierarchical_disaggregator" on-click="_onFullClick"></project-www>
 
     </neon-animated-pages>
 
@@ -73,18 +77,22 @@ This element displays projects in an interactive grid -->
       },
 
       behaviors: [
+
         Polymer.NeonAnimatableBehavior,
         Polymer.NeonAnimationRunnerBehavior
+
       ],
 
       show: function() {
+
         this.style.visibility = 'visible';
         this.playAnimation('entry');
+
       },
 
       _onTileClick: function(e){
 
-        this.projectPage = 'hd';
+        this.projectPage = e.detail.data.tag;
 
       },
 

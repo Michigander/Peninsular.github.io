@@ -1,0 +1,119 @@
+<!-- @License:
+
+  Copyright (c) 2016 Gordon m. Finnie III   -->
+
+<!-- @Element project-www:
+
+  This element is the project page of the hierarchical energy disaggregator -->
+
+<link rel="import" href="elements.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="project-www">
+
+  <template>
+
+    <style include="shared-styles">
+
+      :host {
+        display: block;
+      }
+
+      #fixed {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+      }
+
+      #presentation {
+        position: relative;
+        margin: 15%;
+        width: 70%;
+        height: 70%;
+      }
+
+      .section {
+        height: 100%;
+        width: 100%
+      }
+
+
+      marked-element {
+        color: white;
+        display: block;
+        background: rgba(31, 32, 33, 0.9);
+        border-radius: 5px;
+        padding: 10px 30px;
+        margin-bottom: 10px;
+      }
+
+      .hd-300 {
+        width: 100%;
+      }
+
+    </style>
+
+    <div id="fixed" class="hd-100"></div>
+    <div id="presentation" class="hd-300">
+      <h4>In the meantime head to my <a href='https://github.com/gordon-m-finnie-iii/'>github</a>, or a <a href='https://lc-portfolio.github.io'>portfolio</a> I made for a friend</h4>
+    </div>
+
+  </template>
+
+  <script>
+
+    Polymer({
+      is: 'project-www',
+
+      behaviors: [
+        Polymer.NeonSharedElementAnimatableBehavior
+      ],
+
+      properties: {
+
+        project: {
+          type: String
+        },
+
+        sharedElements: {
+          type: Object,
+          value: function() {
+            return {
+              'hero': this.$.presentation,
+              'ripple': this.$.fixed
+            }
+          }
+        },
+
+        animationConfig: {
+          type: Object,
+          value: function() {
+            return {
+              'entry': [{
+                name: 'ripple-animation',
+                id: 'ripple',
+                toPage: this,
+              }, {
+                name: 'hero-animation',
+                id: 'hero',
+                toPage: this,
+                timing: {
+                  delay: 150
+                }
+              }],
+              'exit': [{
+                name: 'fade-out-animation',
+                node: this.$.fixed
+              }, {
+                name: 'slide-right-animation',
+                node: this.$.presentation
+              }]
+            }
+          }
+        }
+      }
+    });
+  </script>
+</dom-module>
