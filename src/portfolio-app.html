@@ -19,7 +19,7 @@ This element displays projects in an interactive grid -->
         display: block;
 
         --portfolio-title-color: white;
-        --header-background: url('../images/iso1-slow.gif');
+        --header-background: url('../media/images/iso1-slow.gif');
       }
 
       app-header-layout {
@@ -188,7 +188,7 @@ This element displays projects in an interactive grid -->
           type: Object,
           value: function () {
             return {
-              projects : "url('../images/iso1-slow.gif')"
+              projects : "url('../media/images/iso1-slow.gif')"
             }
           }
         }
@@ -243,7 +243,7 @@ This element displays projects in an interactive grid -->
 
           // Scroll
           window.scrollTo(0,0);
-          this.customStyle['--header-background'] = "url('../images/iso1-slow.gif')";
+          this.customStyle['--header-background'] = "url('../media/images/iso1-slow.gif')";
           this.updateStyles();
         }
 

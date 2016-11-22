@@ -84,12 +84,8 @@ This element displays projects in an interactive grid -->
                 }
               }],
               'exit': [{
-                name: 'ripple-animation',
-                id: 'ripple',
-                fromPage: this
-              }, {
-                name: 'hero-animation',
-                id: 'hero',
+                name: 'fade-out-animation',
+                id: 'fade',
                 fromPage: this
               }]
             }
@@ -120,8 +116,7 @@ This element displays projects in an interactive grid -->
 
         // configure the page animation
         this.sharedElements = {
-          'hero': target,
-          'ripple': target
+          'fade': target
         };
 
         this.animationConfig['exit'][0].gesture = {
