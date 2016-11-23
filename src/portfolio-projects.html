@@ -34,22 +34,20 @@ This element displays projects in an interactive grid -->
 
     </style>
 
+    <!-- Project Configuration Data -->
+    <portfolio-project-data
+      id="vault"
+      project-key="{{projectSelectedName}}"
+      project-config="{{projectSelectedConfig}}"></portfolio-project-data>
+
     <!-- Grid managed as set of pages -->
-    <neon-animated-pages id="projects" attr-for-selected="name" selected="[[projectPage]]">
+    <neon-animated-pages id="projects" attr-for-selected="name" selected="[[projectView]]">
 
       <!-- Grid page  -->
       <portfolio-projects-grid id="grid" name="grid" on-tile-click="_onTileClick"></portfolio-projects-grid>
 
-      <project-bloom id="bloom" name="bloom" on-click="_onFullClick"></project-bloom>
-
-      <!-- Project pages
-      <project-hd id="hd" name="hd" on-click="_onFullClick"></project-hd>
-
-      <project-shake id="shake" name="shake" on-click="_onFullClick"></project-shake>
-
-      <project-force id="force" name="force" on-click="_onFullClick"></project-force>
-
-      <project-www id="www" name="www" on-click="_onFullClick"></project-www>-->
+      <!-- Project page -->
+      <portfolio-project-page id="project" name="project" class$="project-{{projectSelectedName}}" project-data="{{projectSelectedConfig}}" on-click="_onFullClick"></portfolio-project-page>
 
     </neon-animated-pages>
 
@@ -61,9 +59,15 @@ This element displays projects in an interactive grid -->
 
       properties: {
 
-        projectPage: {
+        projectView: {
           type: String,
+          notify: true,
           value: 'grid'
+        },
+
+        projectSelectedName: {
+          type: String,
+          notify: true
         },
 
         animationConfig: {
@@ -87,6 +91,9 @@ This element displays projects in an interactive grid -->
 
       ],
 
+      /**
+      * Reveal the grid by playing entry animation.
+      */
       show: function() {
 
         this.style.visibility = 'visible';
@@ -96,17 +103,29 @@ This element displays projects in an interactive grid -->
 
       /**
       * Handle a project-tile click event.
-      * @param{Object} e -
+      * @param{Object} e - event object fired by clicking project tile
       */
       _onTileClick: function(e){
 
-        this.projectPage = e.detail.data.tag;
+        // set the project selected
+        this.projectSelected = e.detail.tag;
+
+        /// change view from grid to project
+        this.projectView = 'project';
+
+        // update styles ( TODO : does computed class do this already? )
+        this.updateStyles();
 
       },
 
+      /**
+      * Handle a project page click event
+      * @param{Object} e - event object fired by clicking on project page
+      */
       _onFullClick: function(e){
 
-        this.projectPage = 'grid';
+        // change view from project to grid
+        this.projectView = 'grid';
 
       }
 

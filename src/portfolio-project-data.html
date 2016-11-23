@@ -1,0 +1,93 @@
+<!-- @License:
+
+  Copyright (c) 2016 Gordon m. Finnie III   -->
+
+<!-- @Element portfolio-project-data:
+
+  This element retrieves configuration data for a portfolio project -->
+
+<link rel="import" href="elements.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="portfolio-project-data">
+  <script>
+    Polymer({
+      is: 'portfolio-project-data',
+      properties: {
+
+        /**
+        * The key determining which configuration is available.
+        * @type{String}
+        */
+        projectKey: String,
+
+        /**
+        * The available configuration.
+        * @type{Object}
+        */
+        projectConfig: {
+          type: Object,
+          computed: '_computeConfiguration(projectKey)',
+          notify: true
+        },
+
+        configurations: {
+          type: Object,
+          value: function () {
+            return {};
+          }
+        }
+
+      },
+
+      /**
+      * Compute configuration object for the given project.
+      * @param{String} projectKey - The name of the project for which to load configuration.
+      */
+      _computeConfiguration(project){
+
+
+        if(configurations.project){
+
+          return configurations.project;
+
+        }
+
+        this._getResource({
+          url: '/data/' + projectKey + '.json',
+
+          onLoad: function(e) {
+
+            this.set(['configurations', project], JSON.parse(e.target.responseText));
+            return JSON.parse(e.target.responseText);
+
+          },
+
+          onError: function(e) {
+            console.log('[folio]=[ ERROR LOADING RESOURCE')
+          }
+        });
+
+      },
+
+      /**
+      * Make XMLHttpRequest for project configuration resource.
+      * @param{Object} request - The request configuration object.
+      */
+      _getResource: function(request){
+
+        // Configure request
+        var xhr = new XMLHttpRequest();
+        xhr.addEventListener('load', request.onLoad.bind(this));
+        xhr.addEventListener('error', request.onError.bind(this));
+
+        // Make request
+        xhr.open('GET', request.url);
+        xhr.send();
+
+      }
+
+    });
+  </script>
+
+</dom-module>

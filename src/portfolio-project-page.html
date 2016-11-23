@@ -2,14 +2,15 @@
 
   Copyright (c) 2016 Gordon m. Finnie III   -->
 
-<!-- @Element project-www:
+<!-- @Element portfolio-project-page:
 
   This element is the project page of the hierarchical energy disaggregator -->
 
 <link rel="import" href="elements.html">
 <link rel="import" href="shared-styles.html">
 
-<dom-module id="project-www">
+<dom-module id="portfolio-project-page">
+
   <template>
 
     <style include="shared-styles">
@@ -40,7 +41,7 @@
   <script>
 
     Polymer({
-      is: 'project-www',
+      is: 'portfolio-project-page',
 
       behaviors: [
         Polymer.NeonSharedElementAnimatableBehavior
@@ -48,32 +49,9 @@
 
       properties: {
 
-        sharedElements: {
-          type: Object,
-          value: function() {
-            return {
-              'fade': this.$.video
-            }
-          }
-        },
-
-        animationConfig: {
-          type: Object,
-          value: function() {
-            return {
-              'entry': [{
-                name: 'fade-in-animation',
-                id: 'fade',
-                toPage: this
-              }],
-              'exit': [{
-                name: 'slide-right-animation',
-                node: this.$.video
-              }]
-            }
-          }
-        }
       }
+
+
     });
   </script>
 </dom-module>

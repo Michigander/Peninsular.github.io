@@ -197,6 +197,7 @@ This element displays projects in an interactive grid -->
       observers: [
         '_routePageChanged(routeData.page)'
       ],
+
       attached: function() {
         if(this.page === 'projects'){
           this.customStyle['--header-background'] = 'transparent';
@@ -204,6 +205,7 @@ This element displays projects in an interactive grid -->
           this.updateStyles();
         }
       },
+
       _onLayoutChange: function(wide) {
 
         var drawer = this.$.drawer;
@@ -224,7 +226,6 @@ This element displays projects in an interactive grid -->
 
         // Load page import on demand. Show 404 page if fails
         var resolvedPageUrl = this.resolveUrl('portfolio-' + newPage + '.html');
-        this.importHref(resolvedPageUrl, null, this._showPage404, true);
 
         if( newPage === 'projects' ){
 
@@ -232,6 +233,7 @@ This element displays projects in an interactive grid -->
           var reducedHeight = parseInt(this.$.header.getComputedStyleValue('height')) - 64;
           window.scrollTo(0,reducedHeight);
 
+          // Set styles
           this.customStyle['--header-background'] = 'transparent';
           this.customStyle['--portfolio-title-color'] = 'black';
           this.updateStyles();
@@ -245,13 +247,8 @@ This element displays projects in an interactive grid -->
           window.scrollTo(0,0);
           this.customStyle['--header-background'] = "url('../media/images/iso1-slow.gif')";
           this.updateStyles();
+
         }
-
-      },
-
-      _showPage404: function() {
-
-        this.page = 'view404';
 
       }
 
