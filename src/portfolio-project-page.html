@@ -33,7 +33,9 @@
     </style>
 
     <video id="video" width="100%" height="100%" controls>
-      <source src="../media/video/bloom.mp4" type="video/mp4">
+
+      <source src="{{_computeVideoSrc(src)}}" type="video/mp4">
+
     </video>
 
   </template>
@@ -49,9 +51,37 @@
 
       properties: {
 
+        /**
+        * The presentation video's source url.
+        * @type{String}
+        */
+        src: {
+          type: String,
+        },
+        /**
+        * The project's title text.
+        * @type{String}
+        */
+        title: String,
+
+        /**
+        * The project's body text. (TODO: markdown?)
+        * @type{String}
+        */
+        body: String
+
+      },
+
+      _computeVideoSrc: function( src ){
+        console.log('===[ computing video src from -> '+ src +']');
+
+        if(src){
+
+          return '/media/video/'+src+'.mp4';
+
+        }
       }
 
-
-    });
+  });
   </script>
 </dom-module>

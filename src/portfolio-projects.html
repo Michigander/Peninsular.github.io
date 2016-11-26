@@ -14,8 +14,10 @@ This element displays projects in an interactive grid -->
     <style include="shared-styles">
 
       :host {
+
         @apply(--layout-fullbleed);
         visibility: hidden;
+
       }
 
       paper-item {
@@ -38,7 +40,7 @@ This element displays projects in an interactive grid -->
     <portfolio-project-data
       id="vault"
       project-key="{{projectSelectedName}}"
-      project-config="{{projectSelectedConfig}}"></portfolio-project-data>
+      selected-config="{{projectSelectedConfig}}"></portfolio-project-data>
 
     <!-- Grid managed as set of pages -->
     <neon-animated-pages id="projects" attr-for-selected="name" selected="[[projectView]]">
@@ -47,7 +49,7 @@ This element displays projects in an interactive grid -->
       <portfolio-projects-grid id="grid" name="grid" on-tile-click="_onTileClick"></portfolio-projects-grid>
 
       <!-- Project page -->
-      <portfolio-project-page id="project" name="project" class$="project-{{projectSelectedName}}" project-data="{{projectSelectedConfig}}" on-click="_onFullClick"></portfolio-project-page>
+      <portfolio-project-page id="project" name="project" class$="{{_computeProjectClass(projectSelectedName)}}" project-data="{{projectSelectedConfig}}" on-click="_onFullClick"></portfolio-project-page>
 
     </neon-animated-pages>
 
@@ -68,6 +70,13 @@ This element displays projects in an interactive grid -->
         projectSelectedName: {
           type: String,
           notify: true
+        },
+
+        projectSelectedConfig: {
+          type: Object,
+          value: function() {
+            return {};
+          }
         },
 
         animationConfig: {
@@ -101,6 +110,13 @@ This element displays projects in an interactive grid -->
 
       },
 
+      _computeProjectClass: function(projectPageName){
+
+        console.log('===[ computing project class for -> ' + projectPageName);
+        return 'project-' + projectPageName;
+
+      },
+
       /**
       * Handle a project-tile click event.
       * @param{Object} e - event object fired by clicking project tile
@@ -108,7 +124,7 @@ This element displays projects in an interactive grid -->
       _onTileClick: function(e){
 
         // set the project selected
-        this.projectSelected = e.detail.tag;
+        this.projectSelectedName = e.detail.indicator;
 
         /// change view from grid to project
         this.projectView = 'project';

@@ -98,7 +98,7 @@ This element is the project page of the hierarchical energy disaggregator -->
     </style>
 
     <!-- Overlay -->
-    <paper-material class$="{{projectData.class}}" elevation="{{projectData.elevation}}">
+    <paper-material class$="{{_computeMaterialClass(projectKey)}}" elevation="5">
 
       <div class="overlay">
 
@@ -120,10 +120,17 @@ This element is the project page of the hierarchical energy disaggregator -->
 
       properties: {
 
-        projectData: Object,
+        projectKey: Object,
 
         projectTitle: String,
 
+      },
+
+      _computeMaterialClass: function(projectKey){
+
+        console.log('===[ computing material class -> ' + projectKey );
+
+        return 'project-'+projectKey;
       }
 
 

@@ -24,7 +24,7 @@ This element displays projects in an interactive grid -->
         @apply(--layout-vertical);
         @apply(--layout-center-center);
 
-        font-family: 'Frontage';
+        font-family: 'Fronprojecte';
 
         display: inline-block;
         float: left;
@@ -41,8 +41,8 @@ This element displays projects in an interactive grid -->
 
       <portfolio-project-tile
         class="tile"
-        project-data="{{item}}"
-        project-title="{{item.project}}"
+        project-key="{{item.project}}"
+        project-title="{{item.title}}"
         on-click="_onClick"></portfolio-project-tile>
 
     </template>
@@ -60,12 +60,11 @@ This element displays projects in an interactive grid -->
          type: Array,
          value: function() {
            return [
-             {elevation: 2, tag: 'hd', project: 'Hierarchical Classifier for Energy Disaggregation', src: 'iso4-full2.gif', class: 'left-col'},
-             {elevation: 2, tag: 'force', project: 'Web Force Salesforce Interface', src: 'iso4-full2-hflip.gif', class: 'right-col'},
-             {elevation: 2, tag: 'shake', project: 'Shake Contact Sharing', src: 'iso4-full2.gif', class: 'left-col'},
-             {elevation: 2, tag: 'www', project: 'Web Dev', src: 'iso4-full2-hflip.gif', class: 'right-col'},
-             {elevation: 0, tag: 'grid', project: 'exposition', src: 'iso4-full2.gif', class: 'left-col'},
-             {elevation: 2, tag: 'bloom', project: 'Bloom Modular Membrane', src: 'iso4-full2-hflip.gif', class: 'right-col'}
+             {elevation: 2, project: 'hd', title: 'Hierarchical Classifier for Energy Disaggregation'},
+             {elevation: 2, project: 'force', title: 'Salesforce Web Application Framework'},
+             {elevation: 2, project: 'shake', title: 'Gesture Based Contact Sharing'},
+             {elevation: 2, project: 'www', title: 'Web Design Portfolio'},
+             {elevation: 2, project: 'bloom', title: 'Origami-Inspired Modular Membrane'}
            ]
           }
         },
@@ -125,8 +124,7 @@ This element displays projects in an interactive grid -->
         };
 
         this.fire('tile-click', {
-          tile: target,
-          data: event.model.item
+          indicator: event.model.item.project
         });
 
       }
