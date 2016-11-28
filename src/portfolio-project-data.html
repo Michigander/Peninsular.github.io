@@ -21,20 +21,23 @@
         * The key determining which configuration is available.
         * @type{String}
         */
-        projectKey: String,
+        projectPageKey: {
+          type: String,
+          observer: '_computeConfiguration'
+        },
 
         /**
         * The available configuration.
         * @type{Object}
         */
-        selectedConfig: {
-          type: Object,
-          computed: '_computeConfiguration(projectKey)',
+        projectPageConfig: {
+          type: String,
           notify: true
         },
 
-        configurations: {
+        configStore: {
           type: Object,
+          notify: true,
           value: function () {
             return {};
           }
@@ -42,20 +45,7 @@
 
       },
 
-      /**
-      * Compute configuration object for the given project.
-      * @param{String} projectKey - The name of the project for which to load configuration.
-      */
-      _computeConfiguration(project){
-        console.log('===[ computing config ]');
-
-        if(this.configurations){
-
-          // don't reload resource
-          console.log('===[ found -> '+this.configurations.project+']');
-          return this.configurations.project;
-
-        }
+      ready: function(){
 
         // load resource
         this._getResource({
@@ -66,11 +56,11 @@
           * @param{Object} e - event object fired by xhr success.
           */
           onLoad: function(e) {
-            console.log('===[ successful. setting property ]');
-            // store configurations
-            this.set('configurations', JSON.parse(e.target.responseText));
 
-            return this.get('configurations', this.projectKey);
+            console.log('===[ successful. setting configStore -> '+e.target.responseText+' ]');
+
+            // store configurations
+            this.set('configStore', JSON.parse(e.target.responseText));
 
           },
 
@@ -84,26 +74,76 @@
 
           }
         });
-
       },
 
       /**
-      * Make XMLHttpRequest for project configuration resource.
-      * @param{Object} request - The request configuration object.
+      * Compute configuration object for the given project.
+      * @param{String} projectPageKey - The name of the project for which to load configuration.
       */
-      _getResource: function(request){
-        console.log('===[ getting '+ request.url +' ]');
+      _computeConfiguration: function(newProj, oldProj){
 
-        // Configure request
-        var xhr = new XMLHttpRequest();
-        xhr.addEventListener('load', request.onLoad.bind(this));
-        xhr.addEventListener('error', request.onError.bind(this));
+        console.log('===[ computing config new='+newProj+' old='+oldProj+' ]');
 
-        // Make request
-        xhr.open('GET', request.url);
-        xhr.send();
+        var project = newProj;
+        if(this.configStore[project]){
 
-      }
+          // don't reload resource
+          console.log('===[ found -> '+this.configStore[project]+']');
+          this.set('projectPageConfig', this.configStore[project]);
+
+        }
+
+        // load resource
+        this._getResource({
+          url: '/data/project-config.json',
+
+          /**
+          * Handle successful response to MLHttpRequest.
+          * @param{Object} e - event object fired by xhr success.
+          */
+          onLoad: function(e) {
+
+            console.log('===[ successful. setting configStore -> '+e.target.responseText+' ]');
+
+            // store configStore
+            this.set('configStore', JSON.parse(e.target.responseText));
+
+            console.log('===[ successful. returning configuration -> '+this.configStore[this.projectPageKey].src+' ]');
+
+            this.set('projectPageConfig', this.configStore[project]);
+          },
+
+          /**
+          * Handle error in getting a resource via XMLHttpRequest.
+          * @param{Object} e - event object fired by xhr error.
+          */
+          onError: function(e) {
+
+            console.log('[folio]=[ ERROR LOADING RESOURCE')
+
+          }
+        });
+
+        },
+
+        /**
+        * Make XMLHttpRequest for project configuration resource.
+        * @param{Object} request - The request configuration object.
+        */
+        _getResource: function(request){
+          console.log('===[ getting '+ request.url +' ]');
+
+          // Configure request
+          var xhr = new XMLHttpRequest();
+          xhr.addEventListener('load', request.onLoad.bind(this));
+          xhr.addEventListener('error', request.onError.bind(this));
+
+          // Make request
+          xhr.open('GET', request.url);
+          xhr.send();
+
+        }
+
 
     });
   </script>

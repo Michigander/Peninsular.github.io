@@ -37,7 +37,7 @@ This element displays projects in an interactive grid -->
 
     </style>
 
-    <template is="dom-repeat" items="[[projects]]">
+    <template is="dom-repeat" items="[[projectConfigs]]">
 
       <portfolio-project-tile
         class="tile"
@@ -56,16 +56,10 @@ This element displays projects in an interactive grid -->
 
       properties: {
 
-        projects: {
+        projectConfigs: {
          type: Array,
          value: function() {
-           return [
-             {elevation: 2, project: 'hd', title: 'Hierarchical Classifier for Energy Disaggregation'},
-             {elevation: 2, project: 'force', title: 'Salesforce Web Application Framework'},
-             {elevation: 2, project: 'shake', title: 'Gesture Based Contact Sharing'},
-             {elevation: 2, project: 'www', title: 'Web Design Portfolio'},
-             {elevation: 2, project: 'bloom', title: 'Origami-Inspired Modular Membrane'}
-           ]
+           return [];
           }
         },
 

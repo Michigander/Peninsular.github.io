@@ -39,17 +39,25 @@ This element displays projects in an interactive grid -->
     <!-- Project Configuration Data -->
     <portfolio-project-data
       id="vault"
-      project-key="{{projectSelectedName}}"
-      selected-config="{{projectSelectedConfig}}"></portfolio-project-data>
+      project-page-key="{{projectSelectedName}}"
+      project-page-config="{{projectSelectedConfig}}"
+      config-store="{{projectConfigs}}"></portfolio-project-data>
 
     <!-- Grid managed as set of pages -->
     <neon-animated-pages id="projects" attr-for-selected="name" selected="[[projectView]]">
 
       <!-- Grid page  -->
-      <portfolio-projects-grid id="grid" name="grid" on-tile-click="_onTileClick"></portfolio-projects-grid>
+      <portfolio-projects-grid id="grid"
+        name="grid"
+        project-configs="{{_computeProjectConfigsArray(projectConfigs)}}"
+        on-tile-click="_onTileClick"></portfolio-projects-grid>
 
       <!-- Project page -->
-      <portfolio-project-page id="project" name="project" class$="{{_computeProjectClass(projectSelectedName)}}" project-data="{{projectSelectedConfig}}" on-click="_onFullClick"></portfolio-project-page>
+      <portfolio-project-page id="project"
+        name="project"
+        class$="{{_computeProjectClass(projectSelectedName)}}"
+        src="{{projectSelectedConfig.src}}"
+        on-click="_onFullClick"></portfolio-project-page>
 
     </neon-animated-pages>
 
@@ -67,16 +75,19 @@ This element displays projects in an interactive grid -->
           value: 'grid'
         },
 
+        projectConfigs: {
+          type: Object,
+          notify: true
+        },
+
         projectSelectedName: {
           type: String,
           notify: true
         },
 
         projectSelectedConfig: {
-          type: Object,
-          value: function() {
-            return {};
-          }
+          type: String,
+          notify: true
         },
 
         animationConfig: {
@@ -99,6 +110,25 @@ This element displays projects in an interactive grid -->
         Polymer.NeonAnimationRunnerBehavior
 
       ],
+
+      /**
+      *
+      */
+      _computeProjectConfigsArray: function(projectConfigs) {
+        console.log('[_/|/|_] computing grid configuration');
+
+        if(projectConfigs){
+          console.log('[_/|/|_] returning grid entry loaded from file');
+
+          return Object.keys(projectConfigs).map(function(key) {
+
+             return projectConfigs[key];
+
+          });
+
+        }
+
+      },
 
       /**
       * Reveal the grid by playing entry animation.
