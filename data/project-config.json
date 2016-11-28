@@ -1,23 +1,55 @@
 {
-
   "bloom" : {
+    "project":"bloom",
     "title":"Bloom Modular Membrane",
-    "src": "Bloom.mp4"
+    "src": "../media/video/bloom.mp4",
+    "tags": [
+      "Architecture",
+      "Geometry",
+      "Design"
+    ]
   },
   "hd" : {
-    "title":"Bloom Modular Membrane",
-    "src": "Bloom.mp4"
+    "project": "hd",
+    "title":"Hierarchical Classifier for Energy Disaggregation",
+    "src": "../media/video/hd.mp4",
+    "tags": [
+      "Machine Learning",
+      "Distributed System",
+      "Algorithm Design",
+      "Sustainability"
+    ]
   },
   "shake" : {
-    "title":"Bloom Modular Membrane",
-    "src": "Bloom.mp4"
+    "project": "shake",
+    "title":"System for Gesture Based Contact Sharing",
+    "src": "../media/video/shake.mp4",
+    "tags": [
+      "Machine Learning",
+      "Web App",
+      "Distributed System",
+      "Algorithm Design",
+      "Social Network",
+      "Optimization"
+    ]
   },
   "force" : {
-    "title":"Bloom Modular Membrane",
-    "src": "Bloom.mp4"
+    "project": "force",
+    "title":"Web App. Framework for Salesforce",
+    "src": "../media/video/force.mp4",
+    "tags": [
+      "Web App",
+      "Distributed System",
+      "Design",
+      "Full Stack"
+    ]
   },
   "www" : {
-    "title":"Bloom Modular Membrane",
-    "src": "Bloom.mp4"
-  },
+    "project": "www",
+    "title":"Web Design Projects",
+    "src": "",
+    "tags": [
+      "Design"
+    ]
+  }
 }

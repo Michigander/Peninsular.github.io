@@ -18,8 +18,10 @@ This element displays projects in an interactive grid -->
         font-family: "Frontage";
         display: block;
 
-        --portfolio-title-color: white;
+        --portfolio-title-color: var(--portfolio-cream);
         --header-background: url('../media/images/iso1-slow.gif');
+        --tabs-font-color: black;
+
       }
 
       app-header-layout {
@@ -51,7 +53,7 @@ This element displays projects in an interactive grid -->
       paper-tab[link] a {
         /* These mixins (from iron-flex-layout) center the link text. */
         font-size: 1em;
-        color: black;
+        color: var(--tabs-font-color);
         text-decoration: none;
         opacity: 1;
         font-family: "Frontage";
@@ -59,7 +61,7 @@ This element displays projects in an interactive grid -->
       }
 
       paper-tabs {
-
+        color: var(--tabs-font-color);
         --paper-tabs-selection-bar-color: {
           black;
         };
@@ -236,6 +238,7 @@ This element displays projects in an interactive grid -->
           // Set styles
           this.customStyle['--header-background'] = 'transparent';
           this.customStyle['--portfolio-title-color'] = 'black';
+          this.customStyle['--tabs-font-color'] = "var(--portfolio-light-tabs-color)";
           this.updateStyles();
 
           // Play animation
@@ -246,6 +249,8 @@ This element displays projects in an interactive grid -->
           // Scroll
           window.scrollTo(0,0);
           this.customStyle['--header-background'] = "url('../media/images/iso1-slow.gif')";
+          this.customStyle['--portfolio-title-color'] = "var(--portfolio-cream)";
+          this.customStyle['--tabs-font-color'] = 'black';
           this.updateStyles();
 
         }
