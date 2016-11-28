@@ -14,8 +14,10 @@ This element displays projects in an interactive grid -->
     <style include="shared-styles">
 
       :host {
+
         @apply(--layout-fullbleed);
         visibility: hidden;
+
       }
 
       paper-item {
@@ -26,7 +28,7 @@ This element displays projects in an interactive grid -->
       }
 
       portfolio-projects-grid {
-        
+
         height: 100%;
         width: 100%;
 
@@ -34,18 +36,20 @@ This element displays projects in an interactive grid -->
 
     </style>
 
+    <!-- Project Configuration Data -->
+    <portfolio-project-data
+      id="vault"
+      project-key="{{projectSelectedName}}"
+      selected-config="{{projectSelectedConfig}}"></portfolio-project-data>
+
     <!-- Grid managed as set of pages -->
-    <neon-animated-pages id="projects" attr-for-selected="name" selected="[[projectPage]]">
+    <neon-animated-pages id="projects" attr-for-selected="name" selected="[[projectView]]">
 
       <!-- Grid page  -->
       <portfolio-projects-grid id="grid" name="grid" on-tile-click="_onTileClick"></portfolio-projects-grid>
 
-      <!-- Project pages -->
-      <project-hd id="hd" name="hd" project="hierarchical_disaggregator" on-click="_onFullClick"></project-hd>
-      <project-bloom id="bloom" name="bloom" project="hierarchical_disaggregator" on-click="_onFullClick"></project-bloom>
-      <project-shake id="shake" name="shake" project="hierarchical_disaggregator" on-click="_onFullClick"></project-shake>
-      <project-force id="force" name="force" project="hierarchical_disaggregator" on-click="_onFullClick"></project-force>
-      <project-www id="www" name="www" project="hierarchical_disaggregator" on-click="_onFullClick"></project-www>
+      <!-- Project page -->
+      <portfolio-project-page id="project" name="project" class$="{{_computeProjectClass(projectSelectedName)}}" project-data="{{projectSelectedConfig}}" on-click="_onFullClick"></portfolio-project-page>
 
     </neon-animated-pages>
 
@@ -57,9 +61,22 @@ This element displays projects in an interactive grid -->
 
       properties: {
 
-        projectPage: {
+        projectView: {
           type: String,
+          notify: true,
           value: 'grid'
+        },
+
+        projectSelectedName: {
+          type: String,
+          notify: true
+        },
+
+        projectSelectedConfig: {
+          type: Object,
+          value: function() {
+            return {};
+          }
         },
 
         animationConfig: {
@@ -83,6 +100,9 @@ This element displays projects in an interactive grid -->
 
       ],
 
+      /**
+      * Reveal the grid by playing entry animation.
+      */
       show: function() {
 
         this.style.visibility = 'visible';
@@ -90,15 +110,38 @@ This element displays projects in an interactive grid -->
 
       },
 
-      _onTileClick: function(e){
+      _computeProjectClass: function(projectPageName){
 
-        this.projectPage = e.detail.data.tag;
+        console.log('===[ computing project class for -> ' + projectPageName);
+        return 'project-' + projectPageName;
 
       },
 
+      /**
+      * Handle a project-tile click event.
+      * @param{Object} e - event object fired by clicking project tile
+      */
+      _onTileClick: function(e){
+
+        // set the project selected
+        this.projectSelectedName = e.detail.indicator;
+
+        /// change view from grid to project
+        this.projectView = 'project';
+
+        // update styles ( TODO : does computed class do this already? )
+        this.updateStyles();
+
+      },
+
+      /**
+      * Handle a project page click event
+      * @param{Object} e - event object fired by clicking on project page
+      */
       _onFullClick: function(e){
 
-        this.projectPage = 'grid';
+        // change view from project to grid
+        this.projectView = 'grid';
 
       }
 

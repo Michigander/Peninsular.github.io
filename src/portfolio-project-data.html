@@ -1,0 +1,111 @@
+<!-- @License:
+
+  Copyright (c) 2016 Gordon m. Finnie III   -->
+
+<!-- @Element portfolio-project-data:
+
+  This element retrieves configuration data for a portfolio project -->
+
+<link rel="import" href="elements.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="portfolio-project-data">
+  <script>
+    Polymer({
+
+      is: 'portfolio-project-data',
+
+      properties: {
+
+        /**
+        * The key determining which configuration is available.
+        * @type{String}
+        */
+        projectKey: String,
+
+        /**
+        * The available configuration.
+        * @type{Object}
+        */
+        selectedConfig: {
+          type: Object,
+          computed: '_computeConfiguration(projectKey)',
+          notify: true
+        },
+
+        configurations: {
+          type: Object,
+          value: function () {
+            return {};
+          }
+        }
+
+      },
+
+      /**
+      * Compute configuration object for the given project.
+      * @param{String} projectKey - The name of the project for which to load configuration.
+      */
+      _computeConfiguration(project){
+        console.log('===[ computing config ]');
+
+        if(this.configurations){
+
+          // don't reload resource
+          console.log('===[ found -> '+this.configurations.project+']');
+          return this.configurations.project;
+
+        }
+
+        // load resource
+        this._getResource({
+          url: '/data/project-config.json',
+
+          /**
+          * Handle successful response to MLHttpRequest.
+          * @param{Object} e - event object fired by xhr success.
+          */
+          onLoad: function(e) {
+            console.log('===[ successful. setting property ]');
+            // store configurations
+            this.set('configurations', JSON.parse(e.target.responseText));
+
+            return this.get('configurations', this.projectKey);
+
+          },
+
+          /**
+          * Handle error in getting a resource via XMLHttpRequest.
+          * @param{Object} e - event object fired by xhr error.
+          */
+          onError: function(e) {
+
+            console.log('[folio]=[ ERROR LOADING RESOURCE')
+
+          }
+        });
+
+      },
+
+      /**
+      * Make XMLHttpRequest for project configuration resource.
+      * @param{Object} request - The request configuration object.
+      */
+      _getResource: function(request){
+        console.log('===[ getting '+ request.url +' ]');
+
+        // Configure request
+        var xhr = new XMLHttpRequest();
+        xhr.addEventListener('load', request.onLoad.bind(this));
+        xhr.addEventListener('error', request.onError.bind(this));
+
+        // Make request
+        xhr.open('GET', request.url);
+        xhr.send();
+
+      }
+
+    });
+  </script>
+
+</dom-module>

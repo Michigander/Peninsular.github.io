@@ -98,20 +98,15 @@ This element is the project page of the hierarchical energy disaggregator -->
     </style>
 
     <!-- Overlay -->
-    <paper-material class$="{{projectData.class}}" elevation="{{projectData.elevation}}">
+    <paper-material class$="{{_computeMaterialClass(projectKey)}}" elevation="5">
 
       <div class="overlay">
 
-        <template is="dom-if" if="{{isProject}}">
-          <paper-card class="project-mat" heading="{{projectTitle}}">
-            <div class="card-actions"></div>
-          </paper-card>
-        </template>
+        <paper-card class="project-mat" heading="{{projectTitle}}">
+          <div class="card-actions"></div>
+        </paper-card>
 
       </div>
-
-      <!-- Background  -->
-      <!--<iron-image class$="{{projectData.class}}" src="../images/{{projectData.src}}" preload sizing="cover"></iron-image>-->
 
     </paper-material>
 
@@ -125,20 +120,19 @@ This element is the project page of the hierarchical energy disaggregator -->
 
       properties: {
 
-        projectData: Object,
+        projectKey: Object,
 
         projectTitle: String,
 
-        isProject: {
-          type: Boolean,
-          computed: '_isProject(projectTitle)'
-        }
-
       },
 
-      _isProject: function(){
-        return !(this.projectTitle === 'exposition');
+      _computeMaterialClass: function(projectKey){
+
+        console.log('===[ computing material class -> ' + projectKey );
+
+        return 'project-'+projectKey;
       }
+
 
     });
 
