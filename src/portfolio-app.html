@@ -15,7 +15,6 @@ This element displays projects in an interactive grid -->
 
       :host {
 
-        font-family: "Frontage";
         display: block;
 
         --portfolio-title-color: var(--portfolio-cream);
@@ -51,12 +50,14 @@ This element displays projects in an interactive grid -->
       }
 
       paper-tab[link] a {
-        /* These mixins (from iron-flex-layout) center the link text. */
+
+        font-family: futura-pt, sans-serif;
+        font-style: normal;
+        font-weight: 400;
         font-size: 1em;
         color: var(--tabs-font-color);
         text-decoration: none;
         opacity: 1;
-        font-family: "Frontage";
         text-align: center;
       }
 
@@ -90,8 +91,10 @@ This element displays projects in an interactive grid -->
       }
 
       [main-title] {
+
         color: var(--portfolio-title-color);
-        font-size: 6vmin;
+        font-size: 7vmin;
+
       }
 
       [condensed-title] {
@@ -136,7 +139,7 @@ This element displays projects in an interactive grid -->
           </app-toolbar>
 
           <app-toolbar>
-            <div class="title" main-title>Gordon Finnie III</div>
+            <div class="title tk-futura-title" main-title>Gordon Finnie III</div>
           </app-toolbar>
 
           <app-toolbar></app-toolbar>
