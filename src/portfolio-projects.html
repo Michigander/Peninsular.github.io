@@ -21,6 +21,7 @@ This element displays projects in an interactive grid -->
       }
 
       paper-item {
+
         font-family: futura-pt, sans-serif;
         font-style: normal;
         font-weight: 400;
@@ -116,17 +117,13 @@ This element displays projects in an interactive grid -->
       *
       */
       _computeProjectConfigsArray: function(projectConfigs) {
-        console.log('[_/|/|_] computing grid configuration');
 
         if(projectConfigs){
-          console.log('[_/|/|_] returning grid entry loaded from file');
-
           return Object.keys(projectConfigs).map(function(key) {
 
              return projectConfigs[key];
 
           });
-
         }
 
       },

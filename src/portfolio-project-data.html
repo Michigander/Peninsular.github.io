@@ -52,12 +52,10 @@
           url: '/data/project-config.json',
 
           /**
-          * Handle successful response to MLHttpRequest.
+          * Handle successful response to XMLHttpRequest.
           * @param{Object} e - event object fired by xhr success.
           */
           onLoad: function(e) {
-
-            console.log('===[ successful. setting configStore -> '+e.target.responseText+' ]');
 
             // store configurations
             this.set('configStore', JSON.parse(e.target.responseText));
@@ -82,13 +80,10 @@
       */
       _computeConfiguration: function(newProj, oldProj){
 
-        console.log('===[ computing config new='+newProj+' old='+oldProj+' ]');
-
         var project = newProj;
         if(this.configStore[project]){
 
           // don't reload resource
-          console.log('===[ found -> '+this.configStore[project]+']');
           this.set('projectPageConfig', this.configStore[project]);
 
         }
@@ -98,19 +93,15 @@
           url: '/data/project-config.json',
 
           /**
-          * Handle successful response to MLHttpRequest.
+          * Handle successful response to XMLHttpRequest.
           * @param{Object} e - event object fired by xhr success.
           */
           onLoad: function(e) {
 
-            console.log('===[ successful. setting configStore -> '+e.target.responseText+' ]');
-
             // store configStore
             this.set('configStore', JSON.parse(e.target.responseText));
-
-            console.log('===[ successful. returning configuration -> '+this.configStore[this.projectPageKey].src+' ]');
-
             this.set('projectPageConfig', this.configStore[project]);
+
           },
 
           /**
@@ -131,7 +122,6 @@
         * @param{Object} request - The request configuration object.
         */
         _getResource: function(request){
-          console.log('===[ getting '+ request.url +' ]');
 
           // Configure request
           var xhr = new XMLHttpRequest();
