@@ -19,12 +19,14 @@ This element displays projects in an interactive grid -->
 
         --portfolio-title-color: var(--portfolio-cream);
         --header-background: url('../media/images/iso1-slow.gif');
-        --tabs-font-color: black;
+
+        --tabs-font-color: var(--home-tab-color);
+        --tabs-background-color: var(--home-tab-background);
 
       }
 
       app-header-layout {
-        background-color: rgba(217, 217, 197, 0.2);
+        background-color: white;
       }
 
       app-header {
@@ -54,17 +56,31 @@ This element displays projects in an interactive grid -->
         font-family: futura-pt, sans-serif;
         font-style: normal;
         font-weight: 400;
-        font-size: 1em;
+        font-size: 4vmin;
+
         color: var(--tabs-font-color);
         text-decoration: none;
         opacity: 1;
         text-align: center;
+
       }
 
       paper-tabs {
         color: var(--tabs-font-color);
-        --paper-tabs-selection-bar-color: {
-          black;
+
+        --paper-tabs-selection-bar-color: var(--tab-bar-color);
+
+        --paper-tabs-selection-bar: {
+
+            height: 1px;
+
+        };
+
+        --paper-tabs: {
+
+          background: var(--tabs-background-color);
+          /*border-bottom: 3px double var(--tab-border-color);*/
+
         };
 
       }
@@ -229,12 +245,28 @@ This element displays projects in an interactive grid -->
 
       _pageChanged: function(newPage, oldPage) {
 
-        console.log('new-> ' + newPage + ' old-> ' + oldPage);
+        if( newPage === 'projects' ) this.$['projects-page'].show();
 
-        // Load page import on demand. Show 404 page if fails
-        var resolvedPageUrl = this.resolveUrl('portfolio-' + newPage + '.html');
+        this._updateStyles(newPage);
 
-        if( newPage === 'projects' ){
+      },
+
+      _updateStyles: function( page ) {
+
+        console.log( 'updating style to ' + page );
+
+        if( page === 'home'){
+
+          // Scroll
+          window.scrollTo(0,0);
+
+          this.customStyle['--header-background'] = "url('../media/images/iso1-slow.gif')";
+          this.customStyle['--portfolio-title-color'] = "var(--portfolio-cream)";
+
+          this.customStyle['--tabs-font-color'] = "var(--home-tab-color)";
+          this.customStyle['--tabs-background-color'] = "var(--home-tab-background)";
+
+        } else {
 
           // Scroll to minimize header
           var reducedHeight = parseInt(this.$.header.getComputedStyleValue('height')) - 64;
@@ -243,24 +275,16 @@ This element displays projects in an interactive grid -->
           // Set styles
           this.customStyle['--header-background'] = 'transparent';
           this.customStyle['--portfolio-title-color'] = 'black';
-          this.customStyle['--tabs-font-color'] = "var(--portfolio-light-tabs-color)";
-          this.updateStyles();
 
-          // Play animation
-          this.$['projects-page'].show();
-
-        }else{
-
-          // Scroll
-          window.scrollTo(0,0);
-          this.customStyle['--header-background'] = "url('../media/images/iso1-slow.gif')";
-          this.customStyle['--portfolio-title-color'] = "var(--portfolio-cream)";
-          this.customStyle['--tabs-font-color'] = 'black';
-          this.updateStyles();
+          this.customStyle['--tabs-font-color'] = "var(--projects-tab-color)";
+          this.customStyle['--tabs-background-color'] = "var(--projects-tab-background )";
 
         }
 
+        this.updateStyles();
+
       }
+
 
     });
   </script>
