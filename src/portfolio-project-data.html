@@ -18,6 +18,13 @@
       properties: {
 
         /**
+        * The category of projects to make available
+        */
+        projectCategory: {
+          type: String
+        },
+
+        /**
         * The key determining which configuration is available.
         * @type{String}
         */
@@ -35,6 +42,9 @@
           notify: true
         },
 
+        /**
+        * All configurations in the project category. Read from file.
+        */
         configStore: {
           type: Object,
           notify: true,
@@ -49,6 +59,7 @@
 
         // load resource
         this._getResource({
+
           url: '/data/project-config.json',
 
           /**
@@ -58,7 +69,7 @@
           onLoad: function(e) {
 
             // store configurations
-            this.set('configStore', JSON.parse(e.target.responseText));
+            this.set('configStore', JSON.parse(e.target.responseText)[this.projectCategory]);
 
           },
 
@@ -68,7 +79,7 @@
           */
           onError: function(e) {
 
-            console.log('[folio]=[ ERROR LOADING RESOURCE')
+            console.log('[/|/|] - ERROR LOADING RESOURCE')
 
           }
         });
@@ -99,7 +110,7 @@
           onLoad: function(e) {
 
             // store configStore
-            this.set('configStore', JSON.parse(e.target.responseText));
+            this.set('configStore', JSON.parse(e.target.responseText)[this.projectCategory]);
             this.set('projectPageConfig', this.configStore[project]);
 
           },

@@ -25,16 +25,14 @@ This element displays projects in an interactive grid -->
 
       }
 
-      app-header-layout {
-        background-color: white;
-      }
+      app-header-layout {}
 
       app-header {
 
         --app-header-background-front-layer:{
           background: var(--header-background);
           background-size: 100% 125%;
-          -webkit-filter: hue-rotate(345deg) opacity(0.6) invert(1);
+          -webkit-filter: hue-rotate(345deg) opacity(0.4) invert(1);
         };
 
         --app-header-background-rear-layer:{
@@ -44,21 +42,15 @@ This element displays projects in an interactive grid -->
 
       }
 
-      paper-toolbar {
-        --paper-toolbar-color: var(--portfolio-red);
-        --paper-toolbar-background: var(--portfolio-cream);
-        --paper-toolbar-height : 60px;
-        width: 100%;
-      }
-
       paper-tab[link] a {
 
         font-family: futura-pt, sans-serif;
         font-style: normal;
         font-weight: 400;
-        font-size: 4vmin;
+        font-size: 3.5svmin;
 
         color: var(--tabs-font-color);
+        background: var(--tabs-background-color);
 
         text-decoration: none;
 
@@ -69,27 +61,28 @@ This element displays projects in an interactive grid -->
       }
 
       paper-tabs {
-        color: var(--tabs-font-color);
 
         --paper-tabs-selection-bar-color: var(--tab-bar-color);
 
         --paper-tabs-selection-bar: {
 
-            height: 1px;
+            height: 2px;
 
         };
 
         --paper-tabs: {
-
-          background: var(--tabs-background-color);
-          /*border-bottom: 3px double var(--tab-border-color);*/
-
+          height: 40px;
         };
 
       }
 
       paper-icon-button {
         color: black;
+      }
+
+      .link {
+        @apply(--layout-horizontal);
+        @apply(--layout-center-center);
       }
 
       .drawer-list {
@@ -142,8 +135,12 @@ This element displays projects in an interactive grid -->
         <app-toolbar>Menu</app-toolbar>
 
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
+
+            <!-- Sections -->
             <a name="home" href="#/home">Home</a>
-            <a name="projects" href="#/projects">Projects</a>
+            <a name="engineering" href="#/engineering">Engineering</a>
+            <a name="design" href="#/design">Design</a>
+
         </iron-selector>
 
       </app-drawer>
@@ -164,12 +161,24 @@ This element displays projects in an interactive grid -->
           <app-toolbar></app-toolbar>
 
           <app-toolbar class="tabs-bar" sticky hidden$="{{!wideLayout}}">
+
+            <!-- Navigation Tabs -->
             <paper-tabs selected="0" fit-container bottom-item>
 
-              <paper-tab link><a name="home" href="#/home">Home</a></paper-tab>
-              <paper-tab link><a name="projects" href="#/projects">Projects</a></paper-tab>
+              <paper-tab link>
+                <a name="home" href="#/home" class="link">Home</a>
+              </paper-tab>
+
+              <paper-tab link>
+                <a name="engineering" href="#/engineering" class="link">Engineering</a>
+              </paper-tab>
+
+              <paper-tab link>
+                  <a name="design" href="#/design" class="link">Design</a>
+              </paper-tab>
 
             </paper-tabs>
+
           </app-toolbar>
 
         </app-header>
@@ -183,7 +192,9 @@ This element displays projects in an interactive grid -->
 
             <portfolio-home id="home-page" name="home"></portfolio-home>
 
-            <portfolio-projects id="projects-page" name="projects"></portfolio-projects>
+            <portfolio-projects id="engineering-page" name="engineering" project-category="engineering"></portfolio-projects>
+
+            <portfolio-projects id="design-page" name="design" project-category="design"></portfolio-projects>
 
         </neon-animated-pages>
       </app-header-layout>
@@ -225,11 +236,15 @@ This element displays projects in an interactive grid -->
       ],
 
       attached: function() {
-        if(this.page === 'projects'){
+
+        if(this.page !== 'home'){
+
           this.customStyle['--header-background'] = 'transparent';
-          this.customStyle['--portfolio-title-color'] = 'black';
+          this.customStyle['--portfolio-title-color'] = "var(--portfolio-blue-header)";
           this.updateStyles();
+
         }
+
       },
 
       _onLayoutChange: function(wide) {
@@ -248,7 +263,12 @@ This element displays projects in an interactive grid -->
 
       _pageChanged: function(newPage, oldPage) {
 
-        if( newPage === 'projects' ) this.$['projects-page'].show();
+        if( newPage !== 'home' ){
+
+          var pageToShow = newPage + '-page';
+          this.$[pageToShow].show();
+
+        }
 
         this._updateStyles(newPage);
 
@@ -277,7 +297,7 @@ This element displays projects in an interactive grid -->
 
           // Set styles
           this.customStyle['--header-background'] = 'transparent';
-          this.customStyle['--portfolio-title-color'] = 'black';
+          this.customStyle['--portfolio-title-color'] = "var(--portfolio-blue-header)";
 
           this.customStyle['--tabs-font-color'] = "var(--projects-tab-color)";
           this.customStyle['--tabs-background-color'] = "var(--projects-tab-background )";

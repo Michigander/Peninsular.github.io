@@ -11,20 +11,61 @@
 
       :host {
         display: block;
-        padding: 10px;
+        padding: 5px 5px;
+      }
+
+      .footer {
+
+        position: absolute;
+        left: 0;
+        padding-top: 25px;
+        margin-top: 25px;
+
+        background: #999AA3;
+        width: 100%;
+        height: 200px;
 
       }
 
+      .footer-text {
+        color: var(--portfolio-cream);
+        padding: 5px;
+      }
+
     </style>
-    <div class="card">
-      <h4>Hello!</h4><h4>This site holds some of the projects and work I have done in the past, and those I am currently working on.</h4>
-    </div>
 
     <div class="card">
-      <h4>Changes to the portfolio are happening every day, so stay tuned!</h4>
-      <h4>Check out the projects page, it contains work in engineering and design. Click to see a video of each project.</h4>
-      <h4>Also, <a href='https://github.com/gordon-m-finnie-iii/'>github</a>, or a <a href='https://lc-portfolio.github.io'>portfolio</a> I made for a friend</h4>
+      <h4>hello ... </h4>
+      <p>This site holds some of the projects and work I have done in the past, and those I am currently working on. I am often making changes and trying out new web component on the site, so stay tuned!</p>
     </div>
+
+    <div class="flex-horizontal">
+      <div class="flex card">
+
+        <h4> engineering </h4>
+        <p>I have enjoyed developing full stack web applications incorporating a variety of languages (Javascript, Java, Python, C) and technologies (Node, Polymer, Express, Machine Learning) in order to address interesting problems.</p>
+
+      </div>
+
+      <div class="flex card">
+
+        <h4> design </h4>
+        <p>I believe that every application, business, and product relies upon thoughtful and intuitive design. This aesthetic foundation is both visual and experiential - and I have included examples of my own design thinking and development.</p>
+
+      </div>
+    </div>
+
+    <paper-material class="footer" elevation="0">
+
+      <div class="footer-text">
+        <h4> me </h4>
+        <p> Email : gordon.m.finnie.iii@gmail.com <p>
+        <p> Github : https://github.com/gordon-m-finnie-iii</p>
+      </div>
+
+
+    </paper-material>
+
 
   </template>
 

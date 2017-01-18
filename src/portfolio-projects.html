@@ -14,8 +14,9 @@ This element displays projects in an interactive grid -->
     <style include="shared-styles">
 
       :host {
-
         @apply(--layout-fullbleed);
+
+        background: var(--portfolio-blue-header);
         visibility: hidden;
 
       }
@@ -41,6 +42,7 @@ This element displays projects in an interactive grid -->
     <!-- Project Configuration Data -->
     <portfolio-project-data
       id="vault"
+      project-category="{{projectCategory}}"
       project-page-key="{{projectSelectedName}}"
       project-page-config="{{projectSelectedConfig}}"
       config-store="{{projectConfigs}}"></portfolio-project-data>
@@ -57,9 +59,7 @@ This element displays projects in an interactive grid -->
       <!-- Project page -->
       <portfolio-project-page id="project"
         name="project"
-        class$="{{_computeProjectClass(projectSelectedName)}}"
-        src="{{projectSelectedConfig.src}}"
-        on-click="_onFullClick"></portfolio-project-page>
+        src="{{projectSelectedConfig.src}}"></portfolio-project-page>
 
     </neon-animated-pages>
 
@@ -70,6 +70,8 @@ This element displays projects in an interactive grid -->
       is: 'portfolio-projects',
 
       properties: {
+
+        projectCategory: String,
 
         projectView: {
           type: String,
@@ -89,7 +91,8 @@ This element displays projects in an interactive grid -->
 
         projectSelectedConfig: {
           type: String,
-          notify: true
+          notify: true,
+          observer: '_selectedConfigChange'
         },
 
         animationConfig: {
@@ -113,17 +116,28 @@ This element displays projects in an interactive grid -->
 
       ],
 
+      listeners : {
+        'reset' : '_onReturnClick'
+      },
+
+      _selectedConfigChange: function(newConfig, oldConfig) {
+        console.log('[/|/|] Selected Config Change. Old -> ' + oldConfig + '. New -> ' + newConfig);
+
+      },
+
       /**
-      *
+      * Generate an array of project data for the element's project category.
       */
       _computeProjectConfigsArray: function(projectConfigs) {
 
         if(projectConfigs){
+
           return Object.keys(projectConfigs).map(function(key) {
 
              return projectConfigs[key];
 
           });
+
         }
 
       },
@@ -138,18 +152,12 @@ This element displays projects in an interactive grid -->
 
       },
 
-      _computeProjectClass: function(projectPageName){
-
-        console.log('===[ computing project class for -> ' + projectPageName);
-        return 'project-' + projectPageName;
-
-      },
-
       /**
       * Handle a project-tile click event.
       * @param{Object} e - event object fired by clicking project tile
       */
       _onTileClick: function(e){
+        console.log('Tile Click.');
 
         // set the project selected
         this.projectSelectedName = e.detail.indicator;
@@ -166,11 +174,10 @@ This element displays projects in an interactive grid -->
       * Handle a project page click event
       * @param{Object} e - event object fired by clicking on project page
       */
-      _onFullClick: function(e){
+      _onReturnClick: function(e){
+        console.log('Return Click.');
 
-        // change view from project to grid
         this.projectView = 'grid';
-
       }
 
     });

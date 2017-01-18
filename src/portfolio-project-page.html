@@ -1,4 +1,4 @@
-<!-- @License:
+ <!-- @License:
 
   Copyright (c) 2016 Gordon m. Finnie III   -->
 
@@ -22,7 +22,7 @@
       #video::before {
         position: fixed;
 
-        background: var(--portfolio-cream-b);
+        background: white;
         -webkit-filter: blur(10px) opacity(0.75);
         top: 0;
         left: 0;
@@ -30,7 +30,17 @@
         width: 100vw;
       }
 
+      paper-fab {
+        margin: 16px;
+        --paper-fab-background: white;
+        --paper-fab-iron-icon: {
+          color: black;
+        }
+      }
+
     </style>
+
+    <paper-fab id="returnButton" icon="arrow-back" on-click="_fireReturn"></paper-fab>
 
     <video id="video" width="100%" height="100%" controls>
 
@@ -56,9 +66,12 @@
         * @type{String}
         */
         src: {
+
           type: String,
           notify: true,
-          observer: '_srcChange'
+          observer: '_srcChange',
+          value: '../media/video/bloom.mp4'
+
         },
 
         /**
@@ -76,10 +89,18 @@
       },
 
       _srcChange: function(newval, oldval){
+        console.log('[/|/|] Source property change. Old value -> ' + oldval + '. New value -> ' + newval);
 
-        console.log('===[ page video src ... old value -> ' + oldval + 'new value -> ' + newval);
-        this.$.video.load();
-        
+        if(newval){
+
+          this.$$('#video').load();
+
+        }
+
+      },
+
+      _fireReturn: function(e) {
+        this.fire('reset');
       }
 
   });

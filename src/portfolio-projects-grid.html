@@ -20,19 +20,6 @@ This element displays projects in an interactive grid -->
 
       }
 
-      .tile {
-        @apply(--layout-vertical);
-        @apply(--layout-center-center);
-
-        display: inline-block;
-        float: left;
-        vertical-align: top;
-
-        height: calc(100% / 2 - 25px);
-        width: calc(100% / 2 - 10px);
-
-      }
-
     </style>
 
     <template is="dom-repeat" items="[[projectConfigs]]">
@@ -40,8 +27,7 @@ This element displays projects in an interactive grid -->
       <portfolio-project-tile
         class="tile"
         project-key="{{item.project}}"
-        project-title="{{item.title}}"
-        on-click="_onClick"></portfolio-project-tile>
+        project-title="{{item.title}}"></portfolio-project-tile>
 
     </template>
 
@@ -88,6 +74,10 @@ This element displays projects in an interactive grid -->
         Polymer.NeonSharedElementAnimatableBehavior
       ],
 
+      listeners : {
+        'view' : '_onTileClick'
+      },
+
       attached: function() {
 
         // set node list
@@ -101,9 +91,10 @@ This element displays projects in an interactive grid -->
       * @param{object} event
       * @return{null}
       */
-      _onClick: function(event) {
+      _onTileClick: function(event) {
 
-        var target = event.target;
+        console.log('[/|/|] Tile hit.');
+        var target = event['targetCard'];
 
         // configure the page animation
         this.sharedElements = {
@@ -116,7 +107,7 @@ This element displays projects in an interactive grid -->
         };
 
         this.fire('tile-click', {
-          indicator: event.model.item.project
+          indicator: event.detail.indicator
         });
 
       }

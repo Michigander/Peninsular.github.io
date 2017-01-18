@@ -30,7 +30,9 @@ This element is the project page of the hierarchical energy disaggregator -->
         height: 100%;
 
       }
-
+      paper-fab {
+        --paper-fab-background: transparent;
+      }
       iron-image {
 
         position: absolute;
@@ -39,6 +41,11 @@ This element is the project page of the hierarchical energy disaggregator -->
         width: 100%;
         z-index: 0;
 
+      }
+
+      paper-icon-button {
+        height: 5vmax;
+        width: 5vmax;
       }
 
       .overlay {
@@ -57,23 +64,7 @@ This element is the project page of the hierarchical energy disaggregator -->
         font-family: futura-pt, sans-serif;
         font-style: normal;
         font-weight: 400;
-      }
 
-      paper-card.exposition-mat {
-        @apply(--layout-flex);
-        @apply(--layout-center-center);
-
-        --paper-card : {
-          height: 75%;
-          width: 75%;
-          color: white;
-        };
-
-        --paper-card-background-color : rgba(0,0,0,0.75);
-
-      }
-
-      paper-card.project-mat {
         @apply(--layout-flex);
         @apply(--layout-center-center);
 
@@ -87,27 +78,35 @@ This element is the project page of the hierarchical energy disaggregator -->
 
         --paper-card-header : {
           height: 80%;
-          align-items: center;
+          @apply(--layout-vertical);
+          @apply(--layout-center-center);
         };
 
         --paper-card-header-text : {
           font-size: 3vmin;
+          text-align: center;
           word-wrap: break-word;
           color: white;
         };
 
+        --paper-card-actions : {
+          @apply(--layout-horizontal);
+          @apply(--layout-around-justified);
+        }
       }
 
     </style>
 
     <!-- Overlay -->
-    <paper-material class$="{{_computeMaterialClass(projectKey)}}" elevation="5">
+    <paper-material class$="{{_computeTileClass(projectKey)}}" elevation="5">
 
       <div class="overlay">
 
-        <paper-card class="project-mat" heading="{{projectTitle}}">
+        <paper-card id="card" class="project-mat" heading="{{projectTitle}}">
 
           <div class="card-actions">
+
+            <paper-icon-button class="tile-icon" src="../media/icons/binoculars.svg" on-tap="_view"></paper-icon-button>
 
           </div>
 
@@ -133,11 +132,18 @@ This element is the project page of the hierarchical energy disaggregator -->
 
       },
 
-      _computeMaterialClass: function(projectKey){
+      _computeTileClass: function(projectKey){
 
-        console.log('===[ computing material class -> ' + projectKey );
+        console.log('[/|/|] Computing tile class. Project key-> ' + projectKey );
 
-        return 'project-'+projectKey;
+        return 'project-' + projectKey;
+
+      },
+
+      _view : function(e) {
+
+        console.log('[/|/|] Binoc hit.');
+        this.fire('view',{'indicator':this.projectKey, 'targetCard' : this});
 
       }
 
