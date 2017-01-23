@@ -14,11 +14,25 @@
     },
 
     "www" : {
+      "type" : "link",
       "project": "www",
-      "title":"Web Design Projects",
-      "src": "",
+      "title":"LC Portfolio",
+      "src": "lc-portfolio.github.io",
       "tags": [
-        "Design"
+        "Design",
+        "Portfolio"
+      ]
+    },
+
+    "cop" : {
+      "type" : "link",
+      "project": "cop",
+      "title":"Customer Onboarding Portal",
+      "src": "gordon-m-finnie-iii.github.io/node-force",
+      "tags": [
+        "Design",
+        "Node",
+        "Polymer"
       ]
     }
 
@@ -63,7 +77,7 @@
         "Full Stack"
       ]
     },
-    
+
     "www" : {
       "project": "www",
       "title":"Web Design Projects",

@@ -94,7 +94,19 @@ This element is the project page of the hierarchical energy disaggregator -->
               <paper-icon-button src="../media/icons/GitHub-Mark-Light-64px.png"></paper-icon-button>
             </a>
 
-            <paper-icon-button icon="fullscreen" on-tap="_view"></paper-icon-button>
+            <template is="dom-if" if="{{_isLink(this.projectType)}}" >
+
+              <a href="{{this.projectLink}}" tabindex="-1">
+                <paper-icon-button src="../media/icons/GitHub-Mark-Light-64px.png"></paper-icon-button>
+              </a>
+
+            </template>
+
+            <template is="dom-if" if="{{!_isLink(this.projectKey)}}">
+
+              <paper-icon-button icon="fullscreen" on-tap="_view"></paper-icon-button>
+
+            </template>
 
           </div>
 
@@ -118,6 +130,8 @@ This element is the project page of the hierarchical energy disaggregator -->
 
         projectTitle: String,
 
+        projectLink: String
+
       },
 
       _computeTileClass: function(projectKey){
@@ -132,6 +146,12 @@ This element is the project page of the hierarchical energy disaggregator -->
 
         console.log('[/|/|] Binoc hit.');
         this.fire('view',{'indicator':this.projectKey, 'targetCard' : this});
+
+      },
+
+      _isLink : function( type ) {
+
+        return type === 'link';
 
       }
 
