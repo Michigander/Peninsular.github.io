@@ -14,10 +14,10 @@
     },
 
     "www" : {
-      "type" : "link",
+      "isLink" : true,
       "project": "www",
       "title":"LC Portfolio",
-      "src": "lc-portfolio.github.io",
+      "src": "https://lc-portfolio.github.io",
       "tags": [
         "Design",
         "Portfolio"
@@ -25,10 +25,10 @@
     },
 
     "cop" : {
-      "type" : "link",
+      "isLink" : true,
       "project": "cop",
       "title":"Customer Onboarding Portal",
-      "src": "gordon-m-finnie-iii.github.io/node-force",
+      "src": "https://gordon-m-finnie-iii.github.io/node-force",
       "tags": [
         "Design",
         "Node",
