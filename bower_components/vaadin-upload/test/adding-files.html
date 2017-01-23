@@ -1,0 +1,256 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>vaadin-upload adding files tests</title>
+  <script src="../../web-component-tester/browser.js"></script>
+  <script src="common.js"></script>
+
+  <link rel="import" href="common.html">
+  <link rel="import" href="../../iron-flex-layout/iron-flex-layout.html">
+</head>
+
+<body>
+
+  <test-fixture id="upload">
+    <template>
+      <vaadin-upload></vaadin-upload>
+    </template>
+  </test-fixture>
+
+  <script>
+    describe('adding files', function() {
+      var upload, file, files;
+      var testFileSize = 512;
+
+      beforeEach(function() {
+        upload = fixture('upload');
+        upload.target = 'http://foo.com/bar';
+        upload._createXhr = xhrCreator({size: testFileSize, uploadTime: 200, stepTime: 50});
+
+        files = createFiles(2, testFileSize, 'application/x-octet-stream');
+        file = createFile(testFileSize, 'application/x-octet-stream');
+        chai.should();
+      });
+
+      describe('with add button', function() {
+        // Skip the file dialog open test for MSIE and MSEdge. It pops out and
+        // stops the JS execution until closed by user.
+        describeSkipIf(ieOrEdge, 'file dialog', function() {
+
+          it('should open file dialog by click', function() {
+            // This test checks if the 'click' event is sinchronously dispatched
+            // on the hidden file input when user clicks Add Files button. The
+            // file dialog is actually not getting opened during testing.
+            //
+            // The mock Add Files button click event fired by this test is not
+            // trusted and hence it should generate a non-trusted click event on
+            // the hidden file input. For security reasons non-IE browsers don't
+            // open file dialog when file input click is non-trusted.
+
+            var clickSpy = sinon.spy();
+            upload.$.fileInput.addEventListener('click', clickSpy);
+
+            upload.$.addFiles.fire('tap');
+            expect(clickSpy).to.be.calledOnce;
+          });
+
+          it('should reset Polymer mouse canceller on click', function() {
+            var spy = sinon.spy(Polymer.Gestures, 'resetMouseCanceller');
+
+            upload.$.addFiles.fire('tap');
+
+            expect(spy).to.be.called;
+          });
+
+          it('should reset input.value before dialog', function() {
+            var input = upload.$.fileInput;
+            // jshint ignore:start
+            input.__proto__ = HTMLElement.prototype;
+            // jshint ignore:end
+            delete input.value;
+            input.value = 'foo';
+
+            input.addEventListener('click', function() {
+              expect(input.value).to.be.empty;
+            });
+
+            upload.$.addFiles.fire('tap');
+          });
+
+        });
+
+        it('should add files from dialog', function() {
+          // We can't simply assign `files` property of input[type="file"].
+          // Tweaking __proto__ to make it assignable below.
+          /* jshint ignore:start */
+          upload.$.fileInput.__proto__ = HTMLElement.prototype;
+          /* jshint ignore:end */
+          // Replacing __proto__ is not enough for Android Chrome, deleting the
+          // files property in addition.
+          delete upload.$.fileInput.files;
+          upload.$.fileInput.files = files;
+
+          var e = document.createEvent('HTMLEvents');
+          e.initEvent('change', false, true);
+          upload.$.fileInput.dispatchEvent(e);
+
+          expect(upload.files[0]).to.equal(files[1]);
+          expect(upload.files[1]).to.equal(files[0]);
+        });
+
+        it('should notify files', function() {
+          var spy = sinon.spy();
+          // when setting arrays Polymer mutation observer works differently
+          upload.addEventListener('files-changed', spy);
+          upload.files = files;
+          spy.should.have.been.calledOnce;
+        });
+
+        it('should disable add button when max files added', function() {
+          var addButton = upload.$.addFiles;
+
+          // Enabled with default maxFiles value
+          expect(addButton.disabled).to.be.false;
+
+          upload.maxFiles = 1;
+          expect(addButton.disabled).to.be.false;
+
+          upload._addFile(createFile(100, 'image/jpeg'));
+          expect(addButton.disabled).to.be.true;
+        });
+
+      });
+
+      describeIf(!touchDevice, 'Dropping file', function() {
+        // Using dispatchEvent instead of fire in this cases because
+        // we have to pass the info in the dataTransfer property
+        function createDndEvent(type) {
+          var e = new Event(type);
+          e.dataTransfer = {files: createFiles(2, testFileSize, 'application/x-bin')};
+          return e;
+        }
+
+        it('should set dragover property when overing', function() {
+          expect(upload._dragover).not.to.be.ok;
+          expect(upload.hasAttribute('dragover')).to.be.false;
+          upload.dispatchEvent(createDndEvent('dragover'));
+          expect(upload._dragover).to.be.ok;
+          expect(upload.hasAttribute('dragover')).to.be.true;
+        });
+
+        it('should remove dragover property when leaving', function() {
+          upload.dispatchEvent(createDndEvent('dragover'));
+          expect(upload._dragover).to.be.ok;
+          expect(upload.hasAttribute('dragover')).to.be.true;
+          upload.dispatchEvent(createDndEvent('dragleave'));
+          expect(upload._dragover).not.to.be.ok;
+          expect(upload.hasAttribute('dragover')).to.be.false;
+        });
+
+        it('should not have dragover property when max files added TODO', function() {
+          upload.maxFiles = 1;
+          upload._addFile(createFile(100, 'image/jpeg'));
+
+          upload.dispatchEvent(createDndEvent('dragover'));
+          expect(upload._dragover).to.be.true;
+          expect(upload._dragoverValid).to.be.false;
+        });
+
+        describe('nodrop flag', function() {
+          var fileAddSpy, dropEvent;
+          beforeEach(function() {
+            fileAddSpy = sinon.spy();
+            upload.addEventListener('files-changed', fileAddSpy);
+            dropEvent = createDndEvent('drop');
+          });
+
+          it('should fire `files-changed` event when dropping files and drop is enabled', function() {
+            upload.nodrop = false;
+            upload.dispatchEvent(dropEvent);
+            fileAddSpy.should.have.been.called;
+          });
+
+          it('should not fire `files-changed` event when dropping files and drop is disabled', function() {
+            upload.nodrop = true;
+            upload.dispatchEvent(dropEvent);
+            fileAddSpy.should.not.have.been.called;
+          });
+        });
+      });
+
+      it('should push files to `files` Array property', function() {
+        expect(upload).to.have.property('files')
+          .that.is.an('array')
+          .that.is.empty;
+
+        files.forEach(upload._addFile.bind(upload));
+        expect(upload.files[0]).to.equal(files[1]);
+        expect(upload.files[1]).to.equal(files[0]);
+      });
+
+      it('should automatically start upload', function() {
+        var uploadStartSpy = sinon.spy();
+        upload.addEventListener('upload-start', uploadStartSpy);
+
+        files.forEach(upload._addFile.bind(upload));
+        uploadStartSpy.should.have.been.calledTwice;
+      });
+
+      describe('validate files', function() {
+        it('should reject files when maxFiles is reached', function(done) {
+          upload.maxFiles = 1;
+          upload.addEventListener('file-reject', function(e) {
+            expect(e.detail.error).to.be.ok;
+            done();
+          });
+          upload._addFiles([file, file]);
+        });
+
+        it('should reject files with excessive size', function(done) {
+          upload.maxFileSize = testFileSize - 1;
+          upload.addEventListener('file-reject', function(e) {
+            expect(e.detail.error).to.be.ok;
+            done();
+          });
+          upload._addFiles([file]);
+        });
+
+        it('should reject files with incorrect contentType', function(done) {
+          upload.accept = 'image/*,video/*';
+          upload.addEventListener('file-reject', function(e) {
+            expect(upload.files.length).to.equal(0);
+            expect(e.detail.error).to.equal('Incorrect File Type.');
+            done();
+          });
+          upload._addFiles([file]);
+        });
+
+        it('should allow files with correct extension', function() {
+          upload.accept = 'image/*,.foo,video/*';
+          file.name = 'bar.FOO';
+          upload._addFiles([file]);
+          expect(upload.files.length).to.equal(1);
+        });
+
+        it('should allow files with correct mime type', function() {
+          upload.accept = 'application/x-octet-stream';
+          upload._addFiles([file]);
+          expect(upload.files.length).to.equal(1);
+        });
+
+        it('should allow wildcards', function() {
+          upload.accept = 'application/*';
+          upload._addFiles([file]);
+          expect(upload.files.length).to.equal(1);
+        });
+      });
+
+    });
+  </script>
+
+</body>
+
+</html>
