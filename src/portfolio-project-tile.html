@@ -25,7 +25,7 @@ This element is the project page of the hierarchical energy disaggregator -->
 
       paper-material {
 
-        background: var(--portfolio-cream-b);
+        background: var(--portfolio-blue-header);
         border-radius: 5px;
         width: 95%;
         height: 100%;
@@ -58,7 +58,7 @@ This element is the project page of the hierarchical energy disaggregator -->
           color: white;
         };
 
-        --paper-card-background-color : rgba(0,0,0,0.75);
+        --paper-card-background-color : var(--portfolio-blue-header);
 
         --paper-card-header : {
           height: 80%;
@@ -132,6 +132,8 @@ This element is the project page of the hierarchical energy disaggregator -->
 
         projectSrc: String,
 
+        projectPageType: String,
+
         isLink: {
           type: Boolean,
           value: false
@@ -142,14 +144,15 @@ This element is the project page of the hierarchical energy disaggregator -->
       _computeTileClass: function(projectKey){
 
         console.log('[/|/|] Computing tile class. Project key-> ' + projectKey );
-
-        return 'project-' + projectKey;
+        return 'default-project-tile';
+        // return 'project-' + projectKey;
 
       },
 
       _view : function(e) {
+        console.log('[/|/|] view request.');
 
-        this.fire('view',{'indicator':this.projectKey, 'targetCard' : this});
+        this.fire('view', {'indicator':this.projectKey, 'targetCard' : this});
 
       }
 

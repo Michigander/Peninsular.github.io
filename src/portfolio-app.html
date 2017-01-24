@@ -80,6 +80,10 @@ This element displays projects in an interactive grid -->
         color: black;
       }
 
+      neon-animated-pages {
+        height: 100%;
+        width: 100%;
+      }
       .link {
         @apply(--layout-horizontal);
         @apply(--layout-center-center);
@@ -239,9 +243,9 @@ This element displays projects in an interactive grid -->
 
         if(this.page !== 'home'){
 
-          this.customStyle['--header-background'] = 'transparent';
-          this.customStyle['--portfolio-title-color'] = "var(--portfolio-blue-header)";
-          this.updateStyles();
+          // this.customStyle['--header-background'] = 'transparent';
+          // this.customStyle['--portfolio-title-color'] = "var(--portfolio-blue-header)";
+          // this.updateStyles();
 
         }
 
@@ -296,11 +300,11 @@ This element displays projects in an interactive grid -->
           window.scrollTo(0,reducedHeight);
 
           // Set styles
-          this.customStyle['--header-background'] = 'transparent';
-          this.customStyle['--portfolio-title-color'] = "var(--portfolio-blue-header)";
+          //this.customStyle['--header-background'] = 'transparent';
+          //this.customStyle['--portfolio-title-color'] = "var(--portfolio-blue-header)";
 
-          this.customStyle['--tabs-font-color'] = "var(--projects-tab-color)";
-          this.customStyle['--tabs-background-color'] = "var(--projects-tab-background )";
+          //this.customStyle['--tabs-font-color'] = "var(--projects-tab-color)";
+          //this.customStyle['--tabs-background-color'] = "var(--projects-tab-background )";
 
         }
 

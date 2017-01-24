@@ -1,0 +1,77 @@
+<!-- @License:
+
+ Copyright (c) 2016 Gordon m. Finnie III   -->
+
+<!-- @Element portfolio-gallery-page:
+
+ This element is the project page of the hierarchical energy disaggregator -->
+
+<link rel="import" href="elements.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="portfolio-gallery-page">
+
+ <template>
+
+   <style include="shared-styles">
+
+     :host {
+       background-color: white;
+     }
+
+     paper-fab {
+       margin: 16px;
+       --paper-fab-background: white;
+       --paper-fab-iron-icon: {
+         color: black;
+       }
+     }
+
+     iron-image {
+       height: 1000px;
+       width: 100%;
+     }
+
+   </style>
+
+   <paper-fab id="returnButton" icon="arrow-back" on-click="_fireReturn"></paper-fab>
+
+    <template is="dom-repeat" items="{{config.srcList}}">
+
+      <iron-image src="{{item}}" sizing="contain" </iron-image>
+
+    </template>
+
+ </template>
+
+ <script>
+
+   Polymer({
+     is: 'portfolio-gallery-page',
+
+     behaviors: [
+       Polymer.NeonSharedElementAnimatableBehavior
+     ],
+
+     properties: {
+
+       /**
+       * The presentation video's source url.
+       * @type{String}
+       */
+       config: {
+         type: Object,
+         value: function() {
+           return {};
+         }
+       }
+
+     },
+
+     _fireReturn: function(e) {
+       this.fire('reset');
+     }
+
+ });
+ </script>
+</dom-module>

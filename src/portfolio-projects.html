@@ -16,11 +16,15 @@ This element displays projects in an interactive grid -->
       :host {
         @apply(--layout-fullbleed);
 
-        background: var(--portfolio-blue-header);
         visibility: hidden;
 
       }
+      neon-animated-pages {
 
+        height: 100%;
+        width: 100%;
+
+      }
       paper-item {
 
         font-family: futura-pt, sans-serif;
@@ -60,6 +64,11 @@ This element displays projects in an interactive grid -->
       <portfolio-project-page id="project"
         name="project"
         src="{{projectSelectedConfig.src}}"></portfolio-project-page>
+
+      <!-- Gallery page -->
+      <portfolio-gallery-page id="gallery"
+        name="gallery"
+        config="{{projectSelectedConfig}}"></portfolio-gallery-page>
 
     </neon-animated-pages>
 
@@ -121,7 +130,7 @@ This element displays projects in an interactive grid -->
       },
 
       _selectedConfigChange: function(newConfig, oldConfig) {
-        console.log('[/|/|] Selected Config Change. Old -> ' + oldConfig + '. New -> ' + newConfig);
+        console.log('[/|/|] Selected Config Change. Old -> ' + JSON.stringify(oldConfig) + '. New -> ' + JSON.stringify(newConfig));
 
       },
 
@@ -157,13 +166,13 @@ This element displays projects in an interactive grid -->
       * @param{Object} e - event object fired by clicking project tile
       */
       _onTileClick: function(e){
-        console.log('Tile Click.');
+        console.log('Tile Click -> ' + JSON.stringify(e.detail));
 
         // set the project selected
         this.projectSelectedName = e.detail.indicator;
 
         /// change view from grid to project
-        this.projectView = 'project';
+        this.projectView = this.projectSelectedConfig.src ? 'project' : 'gallery';
 
         // update styles ( TODO : does computed class do this already? )
         this.updateStyles();
